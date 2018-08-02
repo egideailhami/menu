@@ -31,20 +31,22 @@ class Menu
     {
         $html ='<ul class="nav navbar-nav">';
         foreach (DataMenu::where('id_parent',0)->get() as $key => $menu) {
-           $html .='<li aria-haspopup="true" class="'.( \Request::is($menu->url) ? 'active' : '' ).'">
-                        <a href="'.$menu->url.'" class="nav-link  "><i class="fa fa-file-text-o"></i> Profil </a>
-                    </li>';
-                // $html .= '<ul class="dropdown-menu pull-left">
-                // <li aria-haspopup="true" class=" ">
-                //     <a href="#" class="nav-link  "><i class="fa fa-file-text-o"></i> Profil </a>
-                // </li>
-                // <li aria-haspopup="true" class=" ">
-                //     <a href="#" class="nav-link  "><i class="fa fa-file-text-o"></i> Panduan Aplikasi </a>
-                // </li>
-                // <li class="dropdown-header"> Customs Bond</li>
-                // <li aria-haspopup="true" class=" ">
-                //     <a href="#" class="nav-link  "><i class="fa fa-file-text-o"></i> P I B </a>
-                // </li>';
+            $sub='';
+            $tagUl='';
+            foreach (DataMenu::where('id_parent',$menu->id_mnu)->get() as $key => $submenu) {
+                $sub .= ($submenu->header == 1 ? "<li class='dropdown-header'> ".$submenu->menu_ut."</li>":'<li aria-haspopup="true" class=" ">
+                <a href="'.($menu->url != null ? $menu->url :"javascript:;").'" class="nav-link  "><i class="'.$submenu->icon.'"></i> '.$submenu->menu_ut.' </a>
+            </li>').($submenu->divider == 1 ? "<li class='divider'> </li>":"");
+                        
+            $tagUl='<ul class="dropdown-menu pull-left">
+            '.$sub.'</ul>';
+            }
+
+            $html .='<<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
+            <a href="'.($menu->url != null ? $menu->url :"javascript:;").'"><i class="'.$menu->icon.'"></i> '.$menu->menu_ut.'<span class="arrow"></span>
+            </a>
+           '.$tagUl.'
+        </li>';
         }
         $html .= '</ul>';
         return $html;
