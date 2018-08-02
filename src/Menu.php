@@ -42,7 +42,7 @@ class Menu
             '.$sub.'</ul>';
             }
 
-            $html .='<<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
+            $html .='<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
             <a href="'.($menu->url != null ? $menu->url :"javascript:;").'"><i class="'.$menu->icon.'"></i> '.$menu->menu_ut.'<span class="arrow"></span>
             </a>
            '.$tagUl.'
