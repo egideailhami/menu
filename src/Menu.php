@@ -1,4 +1,5 @@
-<?php namespace Egideailhami\Menu;
+<?php 
+namespace Egideailhami\Menu;
 
 /**
 *  A sample class
