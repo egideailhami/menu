@@ -11,7 +11,7 @@ class Menu extends Model
 
     protected $tables = 'menu';
 
-    protected $guarded = ['id_menu'];
+    protected $guarded = ['id_mnu'];
 
     protected $dates = ['deleted_at'];
     

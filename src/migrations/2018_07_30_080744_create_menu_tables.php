@@ -14,7 +14,7 @@ class CreateMenuTables extends Migration
     public function up()
     {
         Schema::create('menu', function (Blueprint $table) {
-            $table->increments('id_mnu');
+            $table->increments('id_mnu')->primary();
             $table->string('app',20);
             $table->string('menu_ut',50);
             $table->integer('id_parent')->default(0);
