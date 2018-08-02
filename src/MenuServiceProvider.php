@@ -21,6 +21,9 @@ class MenuServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/Models' => app_path('Models'),
         ]);
+        $this->publishes([
+            __DIR__ . '/views' => base_path('resources/views/'.env('menu_path')),
+        ]);
     }
 
     public function register()
