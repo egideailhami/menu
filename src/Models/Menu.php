@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Egideailhami\Menu\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +9,7 @@ class Menu extends Model
 {
     use SoftDeletes;
 
-    protected $tables = ['menu'];
+    protected $tables = 'menu';
 
     protected $guarded = ['id_menu'];
 

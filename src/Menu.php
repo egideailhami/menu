@@ -8,6 +8,8 @@
 *
 *  @author yourname
 */
+use App\Models\Menu as DataMenu;
+
 class Menu
 {
 
@@ -26,9 +28,10 @@ class Menu
     */
     public static function header()
     {
+        $data = DataMenu::first();
         $html ='<div class="page-header-menu">
                     <div class="container-fluid">
-                        <div class="hor-menu  ">
+                        <div class="hor-menu">
                             <ul class="nav navbar-nav">
                                 <li aria-haspopup="true" class="active">
                                     <a href="#"><i class="fa fa-dashboard"></i> Dashboard <span class="arrow"></span>
@@ -132,6 +135,6 @@ class Menu
                         </div>
                     </div>
                 </div>';
-        return $html;
+        return $data;
     }
 }

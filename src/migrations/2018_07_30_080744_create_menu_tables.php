@@ -24,7 +24,6 @@ class CreateMenuTables extends Migration
             $table->string('route_name',50)->nullable();
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 
