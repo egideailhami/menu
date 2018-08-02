@@ -27,13 +27,10 @@ class Menu
     *
     * @return string
     */
-    public static function header()
+    public static function header($app)
     {
         $data = DataMenu::first();
-        $html ='<div class="page-header-menu">
-                    <div class="container-fluid">
-                        <div class="hor-menu">
-                            <ul class="nav navbar-nav">
+        $html ='<ul class="nav navbar-nav">
                                 <li aria-haspopup="true" class="active">
                                     <a href="#"><i class="fa fa-dashboard"></i> Dashboard <span class="arrow"></span>
                                     </a>
@@ -132,10 +129,7 @@ class Menu
                                         </li>
                                     </ul>
                                 </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>';
-        return $data;
+                            </ul>';
+        return $html;
     }
 }
