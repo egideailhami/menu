@@ -29,107 +29,24 @@ class Menu
     */
     public static function header($app)
     {
-        $data = DataMenu::first();
-        $html ='<ul class="nav navbar-nav">
-                                <li aria-haspopup="true" class="active">
-                                    <a href="#"><i class="fa fa-dashboard"></i> Dashboard <span class="arrow"></span>
-                                    </a>
-                                </li>
-                                <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
-                                    <a href="javascript:;"><i class="fa fa-flask"></i> Pengujian<span class="arrow"></span>
-                                    </a>
-                                    <ul class="dropdown-menu pull-left">
-                                        <li aria-haspopup="true" class="active ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-handshake-o"></i> Penerimaan Sampel </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-money"></i> Pembayaran </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-check-square-o"></i> Permohonan Pengujian </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-flask"></i> Pengujian Sampel </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-clone"></i> Hasil Pengujian </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-check-circle"></i> Pengujian Selesai </a>
-                                        </li>
-                                        <li class="divider"> </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-remove"></i> Pengujian Batal</a>
-                                        </li>
-                                        <li class="divider"> </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-search"></i> Pencarian Pengujian </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
-                                    <a href="javascript:;"><i class="fa fa-clipboard"></i> Laporan<span class="arrow"></span>
-                                    </a>
-                                    <ul class="dropdown-menu pull-left">
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-file-text-o"></i> Pengujian </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-file-text-o"></i> Parameter Pengujian </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-file-text-o"></i> Pendapatan </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-file-text-o"></i> Jumlah Klien </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-file-text-o"></i> Jumlah Sampel </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
-                                    <a href="javascript:;"><i class="fa fa-database"></i> Data Master <span class="arrow"></span>
-                                    </a>
-                                    <ul class="dropdown-menu pull-left">
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-user"></i> Klien </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-users"></i> Pegawai </a>
-                                        </li>
-                                        <li class="divider"> </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="icon-layers"></i> Referensi </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-home"></i> Laboratorium </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-thermometer-empty"></i> Parameter Uji </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-flask"></i> Pengujian </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-leaf"></i> Jenis Sampel </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
-                                    <a href="javascript:;"><i class="fa fa-cogs"></i> Pengaturan <span class="arrow"></span>
-                                    </a>
-                                    <ul class="dropdown-menu pull-left">
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-user-circle-o"></i> Pengaturan User </a>
-                                        </li>
-                                        <li class="divider"> </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "><i class="fa fa-cog"></i> Pengaturan Aplikasi </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>';
+        $html ='<ul class="nav navbar-nav">';
+        foreach (DataMenu::where('id_parent',0)->get() as $key => $menu) {
+           $html .='<li aria-haspopup="true" class="'.( \Request::is($menu->url) ? 'active' : '' ).'">
+                        <a href="'.$menu->url.'" class="nav-link  "><i class="fa fa-file-text-o"></i> Profil </a>
+                    </li>';
+                // $html .= '<ul class="dropdown-menu pull-left">
+                // <li aria-haspopup="true" class=" ">
+                //     <a href="#" class="nav-link  "><i class="fa fa-file-text-o"></i> Profil </a>
+                // </li>
+                // <li aria-haspopup="true" class=" ">
+                //     <a href="#" class="nav-link  "><i class="fa fa-file-text-o"></i> Panduan Aplikasi </a>
+                // </li>
+                // <li class="dropdown-header"> Customs Bond</li>
+                // <li aria-haspopup="true" class=" ">
+                //     <a href="#" class="nav-link  "><i class="fa fa-file-text-o"></i> P I B </a>
+                // </li>';
+        }
+        $html .= '</ul>';
         return $html;
     }
 }
