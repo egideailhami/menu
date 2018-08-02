@@ -1,6 +1,6 @@
 <?php
 Route::get('demo', function () {
-    return \Egideailhami::method1("ua");
+    return \GritTekno::method1("ua");
 });
 
 Route::get('view', function () {

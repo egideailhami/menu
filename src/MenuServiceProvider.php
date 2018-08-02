@@ -13,6 +13,10 @@ class MenuServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         $this->loadViewsFrom(__DIR__ . '/views', 'egideailhami.menu');
+
+        $this->publishes([
+            __DIR__ . '/migrations' => database_path('migrations'),
+        ]);
     }
 
     public function register()
