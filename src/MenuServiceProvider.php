@@ -16,14 +16,18 @@ class MenuServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/migrations' => database_path('migrations'),
-        ]);
+        ], 'grittekno-migrations');
+
+        $this->publishes([
+            __DIR__ . '/seeds' => database_path('seeds'),
+        ], 'grittekno-menu');
 
         $this->publishes([
             __DIR__ . '/Models' => app_path('Models'),
-        ]);
+        ], 'grittekno-menu');
         $this->publishes([
             __DIR__ . '/views' => base_path('resources/views/'.env('menu_path')),
-        ]);
+        ], 'grittekno-menu');
     }
 
     public function register()

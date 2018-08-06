@@ -1,8 +1,5 @@
 <?php
-Route::get('demo', function () {
-    return \GritTekno::method1("ua");
-});
 
-Route::get('view', function () {
-    return view('egideailhami.menu::index');
+Route::get(env('menu_url'), function () {
+    return view(str_replace('/','.',env('menu_path')).'.menu');
 });
