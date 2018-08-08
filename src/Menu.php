@@ -86,4 +86,35 @@ class Menu
         $html .= '</ul>';
         return $html;
     }
+
+    public function settingMenu()
+    {
+        $html = ' <table class="table table-hover" id="tblform">
+        <thead>
+            <tr>
+            <th class="w50">No</th>
+            <th class="w50 text-center">
+                <a href="javascript:;" class="btn btn-info btn-xs blue add" data-type="form">
+                    <i class="fa fa-plus fa-fw"></i>
+                </a>
+            </th>
+            <th class="w200 ">App Name</th>
+            <th class="w200 ">Menu Utama</th>
+            <th class="w200">Menu Parent</th>
+            <th class="w75 text-center">Divider</th>
+            <th class="w75 text-center">Icon</th>
+            <th class="">Url</th>
+            </tr>
+        </thead>
+    </table>';
+        return $html;
+    }
+
+    public function scriptSettingMenu()
+    {
+        $html = '<script>
+        
+        </script>';
+        return $html;
+    }
 }
