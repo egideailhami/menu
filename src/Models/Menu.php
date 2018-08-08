@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Egideailhami\Menu\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
