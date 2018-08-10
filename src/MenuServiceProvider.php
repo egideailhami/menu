@@ -22,9 +22,9 @@ class MenuServiceProvider extends ServiceProvider
             __DIR__ . '/seeds' => database_path('seeds'),
         ], 'grittekno-seeds');
 
-        // $this->publishes([
-        //     __DIR__ . '/Models' => app_path('Models'),
-        // ], 'grittekno-menu');
+        $this->publishes([
+            __DIR__ . '/fontawesome-iconpicker' => public_path('vendor/fontawesome-iconpicker'),
+        ], 'grittekno-assets');
         
         // $this->publishes([
         //     __DIR__ . '/views' => base_path('resources/views/'.env('menu_path')),
