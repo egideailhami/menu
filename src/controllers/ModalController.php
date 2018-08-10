@@ -56,7 +56,7 @@ class ModalController extends Controller
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label>Route Name</label>
-                                        <select name="url" class="form-control"><option value="#" > # </option>'.$route.'</select>
+                                        <select name="routename" class="form-control"><option value="#" > # </option>'.$route.'</select>
                                     </div>
                                 </div>
                             </div>
@@ -138,8 +138,8 @@ class ModalController extends Controller
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label>Url</label>
-                                        <input type="text" name="url" class="form-control " placeholder="/example/link" value="'.$model->url.'" maxlength="50">
+                                        <label>Routename</label>
+                                        <input type="text" name="routename" class="form-control " placeholder="/example/link" value="'.$model->url.'" maxlength="50">
                                     </div>
                                 </div>
                                 <div class="col-md-3">

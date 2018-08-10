@@ -54,7 +54,8 @@ class FormController extends Controller
                     $model->divider = $request->divider ? 1 : 0 ;
                     $model->header = $request->header ? 1 : 0 ;
                     $model->icon = 'fa '.$request->icon;
-                    $model->url = $request->url;
+                    $model->routename = $request->routename;
+                    $model->url = $request->routename == '#' ? '#':route($request->routename);
                     $model->urut = $request->urut ? $request->urut : 100;
                     $model->save();
                     return 'Success';
