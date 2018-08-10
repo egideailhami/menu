@@ -1,11 +1,17 @@
 <?php
 \Auth::routes();
 
-Route::get('grit/modalmenu/{name}/{type}/{id?}','Egideailhami\Menu\Controllers\ModalController@modal')->name('modalMenu');
+Route::get('/grit/addmodal/{name}','Egideailhami\Menu\Controllers\ModalController@addmodal');
+Route::get('/grit/editmodal/{name}/{id}','Egideailhami\Menu\Controllers\ModalController@editmodal');
 
-Route::get(env('menu_url'), function () {
-    return view(str_replace('/','.',env('menu_path')).'.menu');
-});
-Route::group(['prefix'=>'api/table'], function () {
-    Route::get('/menu', 'Egideailhami\Menu\Controllers\TableController@tableMenu')->name('tableMenu');
+// Route::get(env('menu_url'), function () {
+//     return view(str_replace('/','.',env('menu_path')).'.menu');
+// });
+
+Route::group(['prefix'=>env('menu_url').'/api'], function () {
+    Route::match(['get', 'post', 'delete', 'put'], '/menu/{id?}', 'Egideailhami\Menu\Controllers\FormController@menu')->name('routeMenu');
+    Route::get('/appname', 'Egideailhami\Menu\Controllers\FormController@getAppName')->name('routeAppName');
+    Route::group(['prefix'=>'table'], function () {
+        Route::get('/menu/{app?}', 'Egideailhami\Menu\Controllers\TableController@tableMenu')->name('tableMenu');
+    });
 });

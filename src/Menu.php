@@ -32,14 +32,14 @@ class Menu
         $html ='<ul class="nav navbar-nav">';
         $classMenuActive='';
         $classSubMenuActive='';
-        foreach (DataMenu::where('id_parent',0)->where('header',0)->where('divider',0)->get() as $key => $menu) {
+        foreach (DataMenu::where('id_parent',0)->where('header',0)->where('divider',0)->orderBy('urut','asc')->get() as $key => $menu) {
             $sub='';
             $tagUl='';
             $classMenuActive = (\Request::is($menu->url) ? 'active' : '');
             foreach (DataMenu::where('id_parent',$menu->id_mnu)->get() as $key => $submenu) {
                 $classSubMenuActive .= (\Request::is($submenu->url) ? 'active' : '');
                 $sub .= ($submenu->header == 1 ? "<li class='dropdown-header ".(\Request::is($submenu->url) ? 'active' : '')."'> ".$submenu->menu_ut."</li>":'<li aria-haspopup="true" class="'.(\Request::is($submenu->url) ? "active" : '').'">
-                <a href="'.($submenu->url != null ? '/'.$submenu->url :"javascript:;").'" class="nav-link  "><i class="'.$submenu->icon.'"></i> '.$submenu->menu_ut.' </a>
+                <a href="'.($submenu->url != null ? $submenu->url :"javascript:;").'" class="nav-link  "><i class="'.$submenu->icon.'"></i> '.$submenu->menu_ut.' </a>
             </li>').($submenu->divider == 1 ? "<li class='divider'> </li>":"");
                         
             $tagUl='<ul class="dropdown-menu pull-left">
@@ -47,7 +47,7 @@ class Menu
             }
 
             $html .='<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown '.$classMenuActive.$classSubMenuActive.'" >
-            <a href="'.($menu->url != null ? '/'.$menu->url :"javascript:;").'"><i class="'.$menu->icon.'"></i> '.$menu->menu_ut.'<span class="arrow"></span>
+            <a href="'.($menu->url != null ? $menu->url :"javascript:;").'"><i class="'.$menu->icon.'"></i> '.$menu->menu_ut.'<span class="arrow"></span>
             </a>
            '.$tagUl.'
         </li>';
@@ -94,7 +94,7 @@ class Menu
             <tr>
             <th class="w25">No</th>
             <th class="w25 text-center">
-                <a href="javascript:;" class="btn btn-info btn-xs blue add">
+                <a href="javascript:;" class="btn btn-info btn-xs blue add" data-type="menu">
                     <i class="fa fa-plus fa-fw"></i>
                 </a>
             </th>
@@ -113,9 +113,17 @@ class Menu
     public function scriptSettingMenu()
     {
         $html = "
-        
 <script type=\"text/javascript\" src=\"".asset('fontawesome-iconpicker/js/fontawesome-iconpicker.js')."\"></script>
         <script>
+        
+    $(document).ready(function() {
+        $.getJSON('".route('routeAppName')."', function(json) {
+            $('select[name=name_app]').append(json.data);
+        });
+
+        $('select[name=name_app]').on('change', function(){
+            tabelMenu.ajax.url('".env('menu_url')."/api/table/menu/'+$(this).val()).load();
+        });
             var tabelMenu = $('#tblMenu').DataTable({
                 processing: true,
                 serverSide: true,
@@ -153,49 +161,104 @@ class Menu
                 },
             });
 
-(function () {
-    $('.table-scrollable').on('shown.bs.dropdown', function (e) {
-        var table = $(this),
-            menu = $(e.target).find('.dropdown-menu'),
-            tableOffsetHeight = table.offset().top + table.height(),
-            menuOffsetHeight = menu.offset().top + menu.outerHeight(true);
+    (function () {
+        $('.table-scrollable').on('shown.bs.dropdown', function (e) {
+            var table = $(this),
+                menu = $(e.target).find('.dropdown-menu'),
+                tableOffsetHeight = table.offset().top + table.height(),
+                menuOffsetHeight = menu.offset().top + menu.outerHeight(true);
 
-        if (menuOffsetHeight > tableOffsetHeight)
-        table.css('padding-bottom', menuOffsetHeight - tableOffsetHeight);
+            if (menuOffsetHeight > tableOffsetHeight)
+            table.css('padding-bottom', menuOffsetHeight - tableOffsetHeight);
+        });
+
+        $('.table-scrollable').on('hide.bs.dropdown', function () {
+            $(this).css('padding-bottom', 0);
+        })
+    })();
+
+    $(document).on('click', '.add', function() {
+        showLoading();
+        removeClassModal();
+        $.ajax({
+            url: '/grit/addmodal/'+$(this).data('type'),
+            type: 'GET',
+        })
+        .done(function(data) {
+            $('.modal-dialog').addClass(data.size);
+            $('.modal-title').html(data.title);
+            $('.modal-body').html(data.form);
+            $('.modal-footer').html(data.footer);
+            $('#myModal').modal({'backdrop': 'static'});
+            $('#myModal').modal('show');
+            console.log(\"success\");
+        })
+        .fail(function(data) {
+            console.log(\"error\");
+        })
+        .always(function(data) {
+            hideLoading();
+            console.log(\"complete\");
+        });
     });
 
-    $('.table-scrollable').on('hide.bs.dropdown', function () {
-        $(this).css('padding-bottom', 0);
-    })
-})();
+    $(document).on('click', '.btn-edit', function() {
+        showLoading();
+        removeClassModal();
+        $.ajax({
+            url: '/grit/editmodal/'+$(this).data('type')+'/'+$(this).data('ref'),
+            type: 'GET',
+        })
+        .done(function(data) {
+            $('.modal-dialog').addClass(data.size);
+            $('.modal-title').html(data.title);
+            $('.modal-body').html(data.form);
+            $('.modal-footer').html(data.footer);
+            $('#myModal').modal({'backdrop': 'static'});
+            $('#myModal').modal('show');
+            console.log(\"success\");
+        })
+        .fail(function(data) {
+            console.log(\"error\");
+        })
+        .always(function(data) {
+            hideLoading();
+            console.log(\"complete\");
+        });
+    });
 
-$(document).on('click', '.add', function() {
-    showLoading();
-    removeClassModal();
-    $.ajax({
-        url: '/grit/modalmenu/menu/add',
-        type: 'GET',
-    })
-    .done(function(data) {
-        $('.modal-dialog').addClass(data.size);
-        $('.modal-title').html(data.title);
-        $('.modal-body').html(data.form);
-        $('.modal-footer').html(data.footer);
-        $('#myModal').modal({'backdrop': 'static'});
-        $('#myModal').modal('show');
-        console.log(\"success\");
-    })
-    .fail(function(data) {
-        console.log(\"error\");
-    })
-    .always(function(data) {
-        hideLoading();
+    $('#myModal').on('show.bs.modal',function() {
+    $('.icp-auto').iconpicker();
+    });
+
+    $('#form').submit( function(e) {
+        e.preventDefault();
+        showLoading();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '".route('routeMenu')."',
+            type: $(\"button:submit\").data('ref'),
+            data:$('#form').serialize(),
+            success: function(data) {
+                if ((data.error)) {
+                    swal('Maaf !',data.error,'error');
+                    console.log(\"error\");
+                    hideLoading();
+                } else {
+                    $('#tblMenu').DataTable().ajax.reload(null,false);
+                    $('#myModal').modal('hide');
+                    swal('Success','Data Berhasil Disimpan','success');
+                    console.log(\"success\");
+                    hideLoading();
+                }
+            },                
+        });   
         console.log(\"complete\");
     });
-});
-
-$('#myModal').on('show.bs.modal',function() {
-   $('.icp-auto').iconpicker();
 });
         </script>";
         return $html;

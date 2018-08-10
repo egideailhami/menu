@@ -9,9 +9,12 @@ use Illuminate\Support\Facades\Crypt;
 
 class TableController extends Controller
 {
-    public function tableMenu()
+    public function tableMenu($app = null)
     {
-        $data=DataMenu::where('app',env('menu_app'));
+        $data=DataMenu::orderBy('app','asc')->orderBy('urut','asc');
+        if ($app) {
+            $data=DataMenu::where('app',$app)->orderBy('urut','asc');
+        }
         $result = Datatables::of($data);
 
         $result->addColumn('action', function ($data) {
@@ -20,8 +23,8 @@ class TableController extends Controller
             <a href="javascript:;" class="btn btn-default btn-xs" data-toggle="dropdown">
             <i class="fa fa-cog"> &nbsp; <i class="fa fa-caret-down"></i></i></a>
             <ul class="dropdown-menu">
-            <li><a href="javascript:;" data-ref="'.Crypt::encryptstring($data->id_mnu.'&20tekNo17').'" class="btn-edit"><i class="fa fa-pencil"></i> Edit </a></li>
-            <li><a href="javascript:;" data-ref="'.Crypt::encryptstring($data->id_mnu.'&20tekNo17').'" class="btn-delete"><i class="fa fa-trash-o delete-tag"></i> Hapus </a></li>
+            <li><a href="javascript:;" data-type="menu"data-ref="'.Crypt::encryptstring($data->id_mnu.'&20tekNo17').'" class="btn-edit"><i class="fa fa-pencil"></i> Edit </a></li>
+            <li><a href="javascript:;" data-type="menu"data-ref="'.Crypt::encryptstring($data->id_mnu.'&20tekNo17').'" class="btn-delete"><i class="fa fa-trash-o delete-tag"></i> Hapus </a></li>
             </ul>
             </div>
             </div>

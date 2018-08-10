@@ -9,58 +9,171 @@ use Illuminate\Support\Facades\Crypt;
 
 class ModalController extends Controller
 {
-    public function modal($name,$type, $id = null, Request $request)
+    public function addmodal($name)
     {
         switch ($name) {
             case 'menu':
-                switch ($type) {
-                    case 'add':
+                $routeCollection = \Route::getRoutes();
+                $route = '';
+                foreach ($routeCollection as $value) {
+                    if ($value->getName() != null) {
+                        // dd(route($value->getName()));
+                        $route .= '<option value="'.$value->getName().'">'.$value->getName().'</option>';
+                    }
+                }
+                $option = '';
+                foreach (DataMenu::where('id_parent',0)->get() as $key => $value) {
+                    $option .='<option value="'.$value->id_mnu.'">'.$value->menu_ut.'</option>';
+                }
+                $size = 'modal-lg';
+                $title = '<i class="fa fa-plus orange"></i><span class="orange"> Tambah</span> Menu';
+                $form = '<div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label>Display Menu</label>
+                                    <input type="text" name="menu_ut" class="form-control " placeholder="Menu Utama" maxlength="50" required="required">
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label>Menu Parent</label>
+                                    <select name="id_parent" class="form-control"><option value="0" > - </option>'.$option.'</select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Header
+                                    <div class="c-checkbox">
+                                    <label>
+                                        <input type="checkbox" name="header">
+                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                        Ya
+                                    </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>Route Name</label>
+                                        <select name="url" class="form-control"><option value="#" > # </option>'.$route.'</select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                    <div class="form-group">
+                                    <label for="email">Icon</label>
+                                    <div class="input-group">
+                                    <input data-placement="bottomRight" maxlength="25" class="form-control icp icp-auto" name="icon" value="fa-archive"
+                                        type="text" readonly />
+                                    <span class="input-group-addon"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Urut</label>
+                                    <input type="text" name="urut" class="form-control " placeholder="Urut" maxlength="50">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Divider
+                                    <div class="c-checkbox">
+                                    <label>
+                                        <input type="checkbox" name="divider">
+                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                        Ya
+                                    </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+                $footer = '<button type="submit" class="btn btn-default btn-orange pull-right" data-ref="POST"><i class="fa fa-check"></i> Simpan</span></button>';
+                return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
+                    break;
+           
+            default:
+                # code...
+                break;
+        }
+    }
+    public function editmodal($name,$id,Request $request)
+    {
+        switch ($name) {
+            case 'menu':
+                    $id = explode('&',Crypt::decryptstring($id))[0];
+                    $model = DataMenu::where('id_mnu',$id)->first();
+
                     $option = '';
                     foreach (DataMenu::where('id_parent',0)->get() as $key => $value) {
-                        $option .='<option value="'.$value->id_mnu.'">'.$value->menu_ut.'</option>';
+                        $option .='<option value="'.$value->id_mnu.'" '.($value->id_mnu == $model->id_parent ? 'selected':'').'>'.$value->menu_ut.'</option>';
                     }
-                    $size = 'modal-md';
-                    $title = '<i class="fa fa-plus orange"></i><span class="orange"> Tambah</span> Menu';
+                    $size = 'modal-lg';
+                    $title = '<i class="fa fa-pencil orange"></i><span class="orange"> Edit</span> Menu';
                     $form = '<div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <label>Menu Utama</label>
-                                        <input type="text" name="menu_ut" class="form-control " placeholder="Menu Utama" maxlength="50" required="required">
+                                        <input type="text" name="menu_ut" class="form-control " placeholder="Menu Utama" value="'.$model->menu_ut.'" maxlength="50" required="required">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <label>Menu Parent</label>
-                                        <select name="id_parent" class="form-control"><option value="" disabled selected>Menu Parent</option>'.$option.'</select>
+                                        <select name="id_parent" class="form-control"><option value="0" > - </option>'.$option.'</select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Menu Utama</label>
-                                        <input type="text" name="menu_ut" class="form-control " placeholder="Menu Utama" maxlength="50" required="required">
+                                        <label>Header
+                                        <div class="c-checkbox">
+                                        <label>
+                                            <input type="checkbox" name="header" '.($model->header == 1 ? "checked" : "").'>
+                                            <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                            Ya
+                                        </label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label>Url</label>
+                                        <input type="text" name="url" class="form-control " placeholder="/example/link" value="'.$model->url.'" maxlength="50">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                         <div class="form-group">
-                                        <label for="email">Ikon :</label>
+                                        <label for="email">Icon</label>
                                         <div class="input-group">
-                                        <input data-placement="bottomRight" maxlength="25" class="form-control icp icp-auto" id="ikon" value="fa-archive"
+                                        <input data-placement="bottomRight" maxlength="25" class="form-control icp icp-auto" name="icon" value="'.substr($model->icon,3).'"
                                             type="text" readonly />
                                         <span class="input-group-addon"></span>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Urut</label>
+                                        <input type="text" name="urut" class="form-control " placeholder="Urut" value="'.$model->urut.'" maxlength="50">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Divider
+                                        <div class="c-checkbox">
+                                        <label>
+                                            <input type="checkbox" name="divider" '.($model->divider == 1 ? "checked" : "").'>
+                                            <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                            Ya
+                                        </label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>';
-                    $footer = '<button type="submit" class="btn btn-default btn-orange pull-right" data-ref="'.Crypt::encryptstring('saveMenu').'"><i class="fa fa-check"></i> Simpan</span></button>';
+                    $footer = '<button type="submit" class="btn btn-default btn-orange pull-right" data-ref="PUT"><i class="fa fa-check"></i> Simpan</span></button>';
                     return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
-                        break;
-                    
-                    default:
-                        # code...
-                        break;
-                }
-           
-                break;
+                    break;
             
             default:
                 # code...

@@ -20,8 +20,10 @@ class CreateMenuTables extends Migration
             $table->integer('id_parent')->default(0);
             $table->tinyInteger('header')->default(0);
             $table->tinyInteger('divider')->default(0);
+            $table->Integer('urut')->default(100);
             $table->string('icon',20);
             $table->string('url',255)->nullable();
+            $table->string('routename',255)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

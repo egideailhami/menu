@@ -1,7 +1,8 @@
 <?php
+namespace Egideailhami\Menu\Seeds;
 
 use Illuminate\Database\Seeder;
-use App\Models\Menu;
+use Egideailhami\Menu\Models\Menu;
 
 class SeederMenu extends Seeder
 {
