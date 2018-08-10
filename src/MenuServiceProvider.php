@@ -24,10 +24,7 @@ class MenuServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/fontawesome-iconpicker' => public_path('vendor/fontawesome-iconpicker'),
-        ], 'grittekno-assets');
-        
-        $this->publishes([
-            __DIR__ . '/main.js' => public_path('vendor/'),
+            __DIR__ . '/js' => public_path('vendor/js'),
         ], 'grittekno-assets');
         
         // $this->publishes([
