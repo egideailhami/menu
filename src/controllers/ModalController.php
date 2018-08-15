@@ -26,7 +26,7 @@ class ModalController extends Controller
                     $option .='<option value="'.$value->id_mnu.'">'.$value->menu_ut.'</option>';
                 }
                 $size = 'modal-lg';
-                $title = '<i class="fa fa-plus orange"></i><span class="orange"> Tambah</span> Menu';
+                $title = '<i class="fa fa-plus text-primary"></i><span class="text-primary"> Tambah</span> Menu';
                 $form = '<div class="row">
                             <div class="col-md-5">
                                 <div class="form-group">
@@ -56,7 +56,7 @@ class ModalController extends Controller
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label>Route Name</label>
-                                        <select name="routename" class="form-control"><option value="#" > # </option>'.$route.'</select>
+                                        <select name="routename" style="width: 100%;" class="form-control"><option value="#" > # </option>'.$route.'</select>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@ class ModalController extends Controller
                                 </div>
                             </div>
                         </div>';
-                $footer = '<button type="submit" class="btn btn-default btn-orange pull-right" data-ref="POST"><i class="fa fa-check"></i> Simpan</span></button>';
+                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST"><i class="fa fa-check"></i> Simpan</span></button>';
                 return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
                     break;
            
@@ -102,20 +102,28 @@ class ModalController extends Controller
     {
         switch ($name) {
             case 'menu':
-                    $id = explode('&',Crypt::decryptstring($id))[0];
-                    $model = DataMenu::where('id_mnu',$id)->first();
-
+                    $id_decrypt = explode('&',Crypt::decryptstring($id))[0];
+                    $model = DataMenu::where('id_mnu',$id_decrypt)->first();
+                    $routeCollection = \Route::getRoutes();
+                    $route = '';
+                    foreach ($routeCollection as $value) {
+                        if ($value->getName() != null) {
+                            // dd(route($value->getName()));
+                            $route .= '<option value="'.$value->getName().'"  '.($value->getName() == $model->routename ? 'selected':'').'>'.$value->getName().'</option>';
+                        }
+                    }
                     $option = '';
                     foreach (DataMenu::where('id_parent',0)->get() as $key => $value) {
                         $option .='<option value="'.$value->id_mnu.'" '.($value->id_mnu == $model->id_parent ? 'selected':'').'>'.$value->menu_ut.'</option>';
                     }
                     $size = 'modal-lg';
-                    $title = '<i class="fa fa-pencil orange"></i><span class="orange"> Edit</span> Menu';
+                    $title = '<i class="fa fa-pencil text-primary"></i><span class="text-primary"> Edit</span> Menu';
                     $form = '<div class="row">
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label>Menu Utama</label>
                                         <input type="text" name="menu_ut" class="form-control " placeholder="Menu Utama" value="'.$model->menu_ut.'" maxlength="50" required="required">
+                                        <input type="hidden" name="ref" value="'.$id.'" required="required">
                                     </div>
                                 </div>
                                 <div class="col-md-5">
@@ -129,7 +137,7 @@ class ModalController extends Controller
                                         <label>Header
                                         <div class="c-checkbox">
                                         <label>
-                                            <input type="checkbox" name="header" '.($model->header == 1 ? "checked" : "").'>
+                                            <input type="checkbox" name="header">
                                             <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
                                             Ya
                                         </label>
@@ -138,8 +146,10 @@ class ModalController extends Controller
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label>Routename</label>
-                                        <input type="text" name="routename" class="form-control " placeholder="/example/link" value="'.$model->url.'" maxlength="50">
+                                        <div class="form-group">
+                                            <label>Route Name</label>
+                                            <select name="routename" style="width: 100%;" class="form-control"><option value="#" > # </option>'.$route.'</select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -155,7 +165,7 @@ class ModalController extends Controller
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Urut</label>
-                                        <input type="text" name="urut" class="form-control " placeholder="Urut" value="'.$model->urut.'" maxlength="50">
+                                        <input type="text" name="urut" class="form-control " value="'.$model->urut.'" placeholder="Urut" maxlength="50">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -163,7 +173,7 @@ class ModalController extends Controller
                                         <label>Divider
                                         <div class="c-checkbox">
                                         <label>
-                                            <input type="checkbox" name="divider" '.($model->divider == 1 ? "checked" : "").'>
+                                            <input type="checkbox" name="divider">
                                             <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
                                             Ya
                                         </label>
@@ -171,7 +181,7 @@ class ModalController extends Controller
                                     </div>
                                 </div>
                             </div>';
-                    $footer = '<button type="submit" class="btn btn-default btn-orange pull-right" data-ref="PUT"><i class="fa fa-check"></i> Simpan</span></button>';
+                    $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="PUT"><i class="fa fa-check"></i> Simpan</span></button>';
                     return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
                     break;
             

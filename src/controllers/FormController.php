@@ -63,8 +63,8 @@ class FormController extends Controller
             }
 
             if ($request->isMethod('put')) {
-                $model = DataMenu::where('id_mnu',$request->id)->first();
-
+                $id=Crypt::decryptstring($request->ref);
+                $model = DataMenu::where('id_mnu',$id)->first();
                 if ($model->menu_ut != $request->menu_ut) {
                     $cek = DataMenu::where('menu_ut',$request->menu_ut)->first();
                     if ($cek != NULL) {
@@ -72,12 +72,14 @@ class FormController extends Controller
                     }
                 }
                 $model->app = env('menu_app');
+                $model->app = env('menu_app');
                 $model->menu_ut = $request->menu_ut;
                 $model->id_parent = $request->id_parent ;
                 $model->divider = $request->divider ? 1 : 0 ;
                 $model->header = $request->header ? 1 : 0 ;
                 $model->icon = 'fa '.$request->icon;
-                $model->url = $request->url;
+                $model->routename = $request->routename;
+                $model->url = $request->routename == '#' ? '#':route($request->routename);
                 $model->urut = $request->urut ? $request->urut : 100;
                 $model->save();
                 return 'Success';
