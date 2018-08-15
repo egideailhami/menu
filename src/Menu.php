@@ -31,15 +31,16 @@ class Menu
     {
         $html ='<ul class="nav navbar-nav">';
         $classMenuActive='';
-        $classSubMenuActive='';
         foreach (DataMenu::where('id_parent',0)->where('header',0)->where('divider',0)->orderBy('urut','asc')->get() as $key => $menu) {
+            $classSubMenuActive='';
             $sub='';
             $tagUl='';
-            $classMenuActive = (\Request::is($menu->url) ? 'active' : '');
+            // dd(\Request::url());
+            $classMenuActive = (\Request::url() == $menu->url ? 'active' : '');
             foreach (DataMenu::where('id_parent',$menu->id_mnu)->get() as $key => $submenu) {
-                $classSubMenuActive .= (\Request::is($submenu->url) ? 'active' : '');
-                $sub .= ($submenu->header == 1 ? "<li class='dropdown-header ".(\Request::is($submenu->url) ? 'active' : '')."'> ".$submenu->menu_ut."</li>":'<li aria-haspopup="true" class="'.(\Request::is($submenu->url) ? "active" : '').'">
-                <a href="'.($submenu->url != null ? $submenu->url :"javascript:;").'" class="nav-link  "><i class="'.$submenu->icon.'"></i> '.$submenu->menu_ut.' </a>
+                $classSubMenuActive .= (\Request::url() == $submenu->url  ? 'active' : '');
+                $sub .= ($submenu->header == 1 ? "<li class='dropdown-header ".(\Request::url() == $submenu->url ? 'active' : '')."'> ".$submenu->menu_ut."</li>":'<li aria-haspopup="true" class="'.(\Request::url() == $submenu->url ? "active" : '').'">
+                <a href="'.($submenu->url !=  '#' ? $submenu->url :"javascript:;").'" class="nav-link  "><i class="'.$submenu->icon.'"></i> '.$submenu->menu_ut.' </a>
             </li>').($submenu->divider == 1 ? "<li class='divider'> </li>":"");
                         
             $tagUl='<ul class="dropdown-menu pull-left">
@@ -47,7 +48,7 @@ class Menu
             }
 
             $html .='<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown '.$classMenuActive.$classSubMenuActive.'" >
-            <a href="'.($menu->url != null ? $menu->url :"javascript:;").'"><i class="'.$menu->icon.'"></i> '.$menu->menu_ut.'<span class="arrow"></span>
+            <a href="'.($menu->url != '#' ? $menu->url :"javascript:;").'"><i class="'.$menu->icon.'"></i> '.$menu->menu_ut.'<span class="arrow"></span>
             </a>
            '.$tagUl.'
         </li>';
@@ -114,18 +115,10 @@ class Menu
     {
         $html = "
 <script type=\"text/javascript\" src=\"".asset('vendor/fontawesome-iconpicker/js/fontawesome-iconpicker.js')."\"></script>
-        <script>
 <script type=\"text/javascript\" src=\"".asset('vendor/js/main.js')."\"></script>
         <script>
         
     $(document).ready(function() {
-        $.getJSON('".route('routeAppName')."', function(json) {
-            $('select[name=name_app]').append(json.data);
-        });
-
-        $('select[name=name_app]').on('change', function(){
-            tabelMenu.ajax.url('".env('menu_url')."/api/table/menu/'+$(this).val()).load();
-        });
             var tabelMenu = $('#tblMenu').DataTable({
                 processing: true,
                 serverSide: true,
@@ -151,15 +144,9 @@ class Menu
                     'thousands':      ',',
                     'lengthMenu':     '_MENU_ Baris',
                     'loadingRecords': 'Loading...',
-                    'processing':     '<div class=\"loadingoverlay\" style=\"background-color: rgba(255, 255, 255, 0.8); position: fixed; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2147483647; background-image: url(&quot;http:/assets/images/loading.gif&quot;); background-position: center center; background-repeat: no-repeat; top: 0px; left: 0px; width: 100%; height: 100%; background-size: 100px;\"></div>',
+                    'processing':     '<div class=\"loadingoverlay\" style=\"background-color: rgba(255, 255, 255, 0.8); position: fixed; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2147483647; background-image: url(&quot;http:".env('imgLoading_path')."&quot;); background-position: center center; background-repeat: no-repeat; top: 0px; left: 0px; width: 100%; height: 100%; background-size: 100px;\"></div>',
                     'search':         'Pencarian :',
                     'zeroRecords':    'Tidak ada record yang cocok ditemukan',
-                    'paginate': {
-                        'first':      'Pertama',
-                        'last':       'Terakhir',
-                        'next':       '<i class=\"fa fa-caret-right\"></i>',
-                        'previous':   '<i class=\"fa fa-caret-left\"></i>'
-                    }
                 },
             });
 
@@ -229,6 +216,14 @@ class Menu
         });
     });
 
+    $.getJSON('".route('routeAppName')."', function(json) {
+        $('select[name=name_app]').append(json.data);
+    });
+
+    $('select[name=name_app]').on('change', function(){
+        tabelMenu.ajax.url('".env('menu_url')."/api/table/menu/'+$(this).val()).load();
+    });
+    
     $('#myModal').on('show.bs.modal',function() {
     $('.icp-auto').iconpicker();
     });
@@ -261,6 +256,7 @@ class Menu
         });   
         console.log(\"complete\");
     });
+    
 });
         </script>";
         return $html;
