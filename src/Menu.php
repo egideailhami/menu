@@ -116,6 +116,7 @@ class Menu
         $html = "
 <script type=\"text/javascript\" src=\"".asset('vendor/fontawesome-iconpicker/js/fontawesome-iconpicker.js')."\"></script>
 <script type=\"text/javascript\" src=\"".asset('vendor/js/main.js')."\"></script>
+<script type=\"text/javascript\" src=\"".asset('vendor/select2/select2.full.min.js')."\"></script>
         <script>
         
     $(document).ready(function() {
