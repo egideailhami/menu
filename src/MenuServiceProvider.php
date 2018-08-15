@@ -23,8 +23,7 @@ class MenuServiceProvider extends ServiceProvider
         ], 'grittekno-seeds');
 
         $this->publishes([
-            __DIR__ . '/fontawesome-iconpicker' => public_path('vendor/fontawesome-iconpicker'),
-            __DIR__ . '/js' => public_path('vendor/js'),
+            __DIR__ . '/assets' => public_path('vendor'),
         ], 'grittekno-assets');
         
         // $this->publishes([
