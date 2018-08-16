@@ -26,12 +26,12 @@ class ModalController extends Controller
                     $option .='<option value="'.$value->id_mnu.'">'.$value->menu_ut.'</option>';
                 }
                 $size = 'modal-lg';
-                $title = '<i class="fa fa-plus text-primary"></i><span class="text-primary"> Tambah</span> Menu';
+                $title = '<i class="fa fa-plus text-primary"></i><span class="text-primary"> Insert</span> Menu';
                 $form = '<div class="row">
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label>Display Menu</label>
-                                    <input type="text" name="menu_ut" class="form-control " placeholder="Menu Utama" maxlength="50" required="required">
+                                    <input type="text" name="menu_ut" class="form-control " placeholder="Display Menu" maxlength="50" required="required">
                                 </div>
                             </div>
                             <div class="col-md-5">
@@ -72,8 +72,8 @@ class ModalController extends Controller
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Urut</label>
-                                    <input type="text" name="urut" class="form-control " placeholder="Urut" maxlength="50">
+                                    <label>Sort</label>
+                                    <input type="text" name="urut" class="form-control " placeholder="Sort" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -89,7 +89,7 @@ class ModalController extends Controller
                                 </div>
                             </div>
                         </div>';
-                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST"><i class="fa fa-check"></i> Simpan</span></button>';
+                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST"><i class="fa fa-check"></i> Save</span></button>';
                 return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
                     break;
            
@@ -122,7 +122,7 @@ class ModalController extends Controller
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label>Menu Utama</label>
-                                        <input type="text" name="menu_ut" class="form-control " placeholder="Menu Utama" value="'.$model->menu_ut.'" maxlength="50" required="required">
+                                        <input type="text" name="menu_ut" class="form-control " placeholder="Display Menu" value="'.$model->menu_ut.'" maxlength="50" required="required">
                                         <input type="hidden" name="ref" value="'.$id.'" required="required">
                                     </div>
                                 </div>
@@ -164,8 +164,8 @@ class ModalController extends Controller
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Urut</label>
-                                        <input type="text" name="urut" class="form-control " value="'.$model->urut.'" placeholder="Urut" maxlength="50">
+                                        <label>Sort</label>
+                                        <input type="text" name="urut" class="form-control " value="'.$model->urut.'" placeholder="Sort" maxlength="50">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -181,7 +181,7 @@ class ModalController extends Controller
                                     </div>
                                 </div>
                             </div>';
-                    $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="PUT"><i class="fa fa-check"></i> Simpan</span></button>';
+                    $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="PUT"><i class="fa fa-check"></i> Save</span></button>';
                     return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
                     break;
             

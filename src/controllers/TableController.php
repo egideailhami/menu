@@ -24,7 +24,7 @@ class TableController extends Controller
             <i class="fa fa-cog"> &nbsp; <i class="fa fa-caret-down"></i></i></a>
             <ul class="dropdown-menu">
             <li><a href="javascript:;" data-type="menu"data-ref="'.Crypt::encryptstring($data->id_mnu.'&20tekNo17').'" class="btn-edit"><i class="fa fa-pencil"></i> Edit </a></li>
-            <li><a href="javascript:;" data-type="menu"data-ref="'.Crypt::encryptstring($data->id_mnu.'&20tekNo17').'" class="btn-delete"><i class="fa fa-trash-o delete-tag"></i> Hapus </a></li>
+            <li><a href="javascript:;" data-type="menu"data-ref="'.Crypt::encryptstring($data->id_mnu.'&20tekNo17').'" class="btn-delete"><i class="fa fa-trash-o delete-tag"></i> Delete </a></li>
             </ul>
             </div>
             </div>

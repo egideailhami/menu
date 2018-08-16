@@ -41,7 +41,7 @@ class Menu
                 $classSubMenuActive .= (\Request::url() == $submenu->url  ? 'active' : '');
                 $sub .= ($submenu->header == 1 ? "<li class='dropdown-header ".(\Request::url() == $submenu->url ? 'active' : '')."'> ".$submenu->menu_ut."</li>":'<li aria-haspopup="true" class="'.(\Request::url() == $submenu->url ? "active" : '').'">
                 <a href="'.($submenu->url !=  '#' ? $submenu->url :"javascript:;").'" class="nav-link  "><i class="'.$submenu->icon.'"></i> '.$submenu->menu_ut.' </a>
-            </li>').($submenu->divider == 1 ? "<li class='divider'> </li>":"");
+            </li>').($submenu->divider == 1 ? "<li class=\"divider\"> </li>":"");
                         
             $tagUl='<ul class="dropdown-menu pull-left">
             '.$sub.'</ul>';
@@ -252,7 +252,7 @@ class Menu
                 } else {
                     $('#tblMenu').DataTable().ajax.reload(null,false);
                     $('#myModal').modal('hide');
-                    swal('Success','Data Berhasil Disimpan','success');
+                    swal('Success!','Your Menu has been saved','success');
                     console.log(\"success\");
                     hideLoading();
                 }
@@ -260,9 +260,76 @@ class Menu
         });   
         console.log(\"complete\");
     });
+
+    $(document).on('click', '.btn-delete', function() {
+        ref = $(this).data('ref');
+        swal({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '<i class=\"fa fa-trash\"></i> Yes',
+            cancelButtonText: '<i class=\"fa fa-times\"></i> No',
+            showCancelButton: true,
+            cancelButtonColor: '#d33',
+            confirmButtonColor: '#3085d6',
+        }).then(function() {
+            showLoading();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '".route('routeMenu')."',
+                    type: 'delete',
+                    data: {ref: ref},
+                    success: function(data) {
+                        if ((data.error)) {
+                            swal('Sorry!',data.error,'error');
+                            console.log(\"error\");
+                            hideLoading();
+                        } else {
+                            $('#tblMenu').DataTable().ajax.reload(null,false);
+                            swal('Success!','Your Menu has been deleted!','success');
+                            console.log(\"success\");
+                            hideLoading();
+                        }
+                    },               
+                });   
+        });
+    });
+
+    function preview(){
+        $.getJSON('".route('routePreviewMenu')."', function(json) {
+            $('#preview').html(json.data);
+            $('.fa-refresh').removeClass('fa-spin');
+        });
+    };
+
+    preview();
+
+    $(document).on('click', '#btn-preview', function() {
+        $('#preview').html('');
+        $('.fa-refresh').addClass('fa-spin');
+        preview();
+    });
     
 });
         </script>";
+        return $html;
+    }
+
+    public function headerPreview()
+    {
+        $html='<div class="page-header" style="height:51px !important;">
+                <div class="page-header-menu">  
+                    <div class="container-fluid">
+                        <div class="hor-menu  " id="preview">
+                        </div>
+                    </div>
+                </div>
+            </div>';
         return $html;
     }
 }

@@ -11,6 +11,7 @@ Route::get('/grit/editmodal/{name}/{id}','Egideailhami\Menu\Controllers\ModalCon
 Route::group(['prefix'=>env('menu_url').'/api'], function () {
     Route::match(['get', 'post', 'delete', 'put'], '/menu/{id?}', 'Egideailhami\Menu\Controllers\FormController@menu')->name('routeMenu');
     Route::get('/appname', 'Egideailhami\Menu\Controllers\FormController@getAppName')->name('routeAppName');
+    Route::get('/previewMenu', 'Egideailhami\Menu\Controllers\FormController@getPreview')->name('routePreviewMenu');
     Route::group(['prefix'=>'table'], function () {
         Route::get('/menu/{app?}', 'Egideailhami\Menu\Controllers\TableController@tableMenu')->name('tableMenu');
     });
