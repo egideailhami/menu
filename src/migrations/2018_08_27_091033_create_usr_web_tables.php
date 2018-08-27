@@ -22,7 +22,7 @@ class CreateUsrWebTables extends Migration
             $table->string('nama_lkp',50);
             $table->string('email_usr',50);
             $table->tinyInteger('status');
-            $table->integer('id_uks')->default(0);
+            $table->integer('id_uaks')->default(0);
             $table->integer('rec_usr')->default(0);
             $table->timestamps();
             $table->softDeletes();
