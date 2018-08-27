@@ -16,7 +16,7 @@ class CreateUsrWebTables extends Migration
         Schema::create('usr_web', function (Blueprint $table) {
             $table->increments('id_usr');
             $table->string('namauser',25);
-            $table->string('pass',255);
+            $table->string('password');
             $table->string('tbl_sumber',30);
             $table->integer('key_relasi');
             $table->string('nama_lkp',50);
