@@ -32,11 +32,11 @@ class SeederMenu extends Seeder
         $menu->save();
 
         $usr_web = new UsrWeb;
-        $usr_web->namauser = 'admin';
+        $usr_web->namauser = 'superuser';
         $usr_web->password = bcrypt('20tekNo17');
-        $usr_web->tbl_sumber = 'karyawan';
-        $usr_web->key_relasi = '5';
-        $usr_web->nama_lkp = 'Egi Dea Ilhami';
+        $usr_web->tbl_sumber = env('tbl_sumber');
+        $usr_web->key_relasi = '1';
+        $usr_web->nama_lkp = 'Super User';
         $usr_web->email_usr = 'egideailhami@gmail.com';
         $usr_web->status = 1;
         $usr_web->save();
