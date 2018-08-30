@@ -54,7 +54,7 @@ class FormController extends Controller
                 $model->header = $request->header ? 1 : 0 ;
                 $model->icon = 'fa '.$request->icon;
                 $model->routename = $request->routename;
-                $model->url = $request->routename == '#' ? '#':route($request->routename);
+                $model->url = $request->routename == '#' ? '#':\URL::route($request->routename, array(), false);
                 $model->urut = $request->urut ? $request->urut : 100;
                 $model->save();
                 return 'Success';
@@ -71,7 +71,7 @@ class FormController extends Controller
                 $model->header = $request->header ? 1 : 0 ;
                 $model->icon = 'fa '.$request->icon;
                 $model->routename = $request->routename;
-                $model->url = $request->routename == '#' ? '#':route($request->routename);
+                $model->url = $request->routename == '#' ? '#':\URL::route($request->routename, array(), false);
                 $model->urut = $request->urut ? $request->urut : 100;
                 $model->save();
                 return 'Success';
