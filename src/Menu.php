@@ -35,11 +35,13 @@ class Menu
             $classSubMenuActive='';
             $sub='';
             $tagUl='';
-            // dd(\Request::url());
-            $classMenuActive = (\Request::url() == $menu->url ? 'active' : '');
-            foreach (DataMenu::where('id_parent',$menu->id_mnu)->get() as $key => $submenu) {
-                $classSubMenuActive .= (\Request::url() == $submenu->url  ? 'active' : '');
-                $sub .= ($submenu->header == 1 ? "<li class='dropdown-header ".(\Request::url() == $submenu->url ? 'active' : '')."'> ".$submenu->menu_ut."</li>":'<li aria-haspopup="true" class="'.(\Request::url() == $submenu->url ? "active" : '').'">
+            $count = DataMenu::where('id_parent',$menu->id_mnu)->count();
+            if ($count == 0) {
+                $classMenuActive = (\Request::is(ltrim($menu->url,'/')) ? 'active' : '');
+            }
+            foreach (DataMenu::where('id_parent',$menu->id_mnu)->orderBy('urut','asc')->get() as $key => $submenu) {
+                $classSubMenuActive .= (\Request::is(ltrim($submenu->url,'/'))  ? 'active' : '');
+                $sub .= ($submenu->header == 1 ? "<li class='dropdown-header ".(\Request::is(ltrim($submenu->url,'/')) ? 'active' : '')."'> ".$submenu->menu_ut."</li>":'<li aria-haspopup="true" class="'.(\Request::is(ltrim($submenu->url,'/')) ? "active" : '').'">
                 <a href="'.($submenu->url !=  '#' ? $submenu->url :"javascript:;").'" class="nav-link  "><i class="'.$submenu->icon.'"></i> '.$submenu->menu_ut.' </a>
             </li>').($submenu->divider == 1 ? "<li class=\"divider\"> </li>":"");
                         
@@ -64,11 +66,13 @@ class Menu
         $classSubMenuActive='';
         foreach (DataMenu::where('id_parent',0)->where('header',0)->where('divider',0)->get() as $key => $menu) {
             $sub='';
-            $tagUl='';
-            $classMenuActive = (\Request::is($menu->url) ? 'active' : '');
+            $tagUl='';            
+            if ($count == 0) {
+                $classMenuActive = (\Request::is(ltrim($menu->url,'/')) ? 'active' : '');
+            }
             foreach (DataMenu::where('id_parent',$menu->id_mnu)->get() as $key => $submenu) {
-                $classSubMenuActive .= (\Request::is($submenu->url) ? 'active' : '');
-                $sub .= ($submenu->header == 1 ? "<li class='dropdown-header ".(\Request::is($submenu->url) ? 'active' : '')."'> ".$submenu->menu_ut."</li>":'<li aria-haspopup="true" class="'.(\Request::is($submenu->url) ? "active" : '').'">
+                $classSubMenuActive .= (\Request::is(ltrim($submenu->url,'/')) ? 'active' : '');
+                $sub .= ($submenu->header == 1 ? "<li class='dropdown-header ".(\Request::is(ltrim($submenu->url,'/')) ? 'active' : '')."'> ".$submenu->menu_ut."</li>":'<li aria-haspopup="true" class="'.(\Request::is(ltrim($submenu->url,'/')) ? "active" : '').'">
                 <a href="'.($submenu->url != null ? '/'.$submenu->url :"javascript:;").'" class="nav-link  "><i class="'.$submenu->icon.'"></i> <span class="title">'.$submenu->menu_ut.'</span></a>
             </li>').($submenu->divider == 1 ? "<li class='divider'> </li>":"");
                         
