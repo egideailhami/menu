@@ -103,7 +103,7 @@ class Menu
                     <i class="fa fa-plus fa-fw"></i>
                 </a>
             </th>
-            <th class="w150 ">Menu Utama</th>
+            <th class="w150 ">Display Menu</th>
             <th class="w150">Menu Parent</th>
             <th class="w75 text-center">Header</th>
             <th class="w75 text-center">Divider</th>
@@ -114,212 +114,507 @@ class Menu
     </table>';
         return $html;
     }
+    
+    public function tableRole()
+    {
+        $html = '<table class="table table-hover" id="tblRole">
+        <thead>
+            <tr>
+            <th class="w25">No</th>
+            <th class="w25 text-center">
+                <a href="javascript:;" class="btn btn-info btn-xs blue add" data-type="role">
+                    <i class="fa fa-plus fa-fw"></i>
+                </a>
+            </th>
+            <th class="w200 ">Peran User</th>
+            <th>Keterangan Peran</th>
+            </tr>
+        </thead>
+    </table>';
+        return $html;
+    }
+    
+    public function tablePermission()
+    {
+        $html = '<table class="table table-hover" id="tblPermission">
+        <thead>
+            <tr>
+            <th class="w25">No</th>
+            <th class="w25 text-center">
+                <a href="javascript:;" class="btn btn-info btn-xs blue add" data-type="permission">
+                    <i class="fa fa-plus fa-fw"></i>
+                </a>
+            </th>
+            <th class="w200 ">Ijin User</th>
+            <th>Keterangan Ijin</th>
+            </tr>
+        </thead>
+    </table>';
+        return $html;
+    }
 
     public function scriptSettingMenu()
     {
         $html = "
-<script type=\"text/javascript\" src=\"".asset('vendor/fontawesome-iconpicker/js/fontawesome-iconpicker.js')."\"></script>
-<script type=\"text/javascript\" src=\"".asset('vendor/js/main.js')."\"></script>
-<script type=\"text/javascript\" src=\"".asset('vendor/select2/js/select2.full.min.js')."\"></script>
+        <script type=\"text/javascript\" src=\"".asset('vendor/fontawesome-iconpicker/js/fontawesome-iconpicker.js')."\"></script>
+        <script type=\"text/javascript\" src=\"".asset('vendor/js/main.js')."\"></script>
+        <script type=\"text/javascript\" src=\"".asset('vendor/select2/js/select2.full.min.js')."\"></script>
         <script>
-        
-    $(document).ready(function() {
-            var tabelMenu = $('#tblMenu').DataTable({
-                processing: true,
-                serverSide: true,
-                ordering: false,
-                ajax: '".route('tableMenu')."',
-                columns: [
-                    { data: 'DT_Row_Index', name: 'DT_Row_Index', class:'text-center', orderable: false, searchable: false},
-                    { data: 'action', name: 'action', class:'text-center', orderable: false, searchable: false},
-                    { data: 'menu_ut', name: 'menu_ut' },
-                    { data: 'name_parent', name: 'name_parent' },
-                    { data: 'header', name: 'header', class:'text-center', orderable: false, searchable: false},
-                    { data: 'divider', name: 'divider', class:'text-center', orderable: false, searchable: false},
-                    { data: 'icon', name: 'icon', class:'text-center', orderable: false, searchable: false},
-                    { data: 'url', name: 'url' },
-                ],
-                language:{
-                    'decimal':        '',
-                    'emptyTable':     'Tak ada data yang tersedia pada tabel ini',
-                    'info':           'Tampil _START_ s/d _END_ dari _TOTAL_ baris',
-                    'infoEmpty':      'Menampilkan 0 sampai 0 dari 0 entri',
-                    'infoFiltered':   '(difiler dari total entri _MAX_)',
-                    'infoPostFix':    '',
-                    'thousands':      ',',
-                    'lengthMenu':     '_MENU_ Baris',
-                    'loadingRecords': 'Loading...',
-                    'processing':     '<div class=\"loadingoverlay\" style=\"background-color: rgba(255, 255, 255, 0.8); position: fixed; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2147483647; background-image: url(&quot;http:".env('imgLoading_path')."&quot;); background-position: center center; background-repeat: no-repeat; top: 0px; left: 0px; width: 100%; height: 100%; background-size: 100px;\"></div>',
-                    'search':         'Pencarian :',
-                    'zeroRecords':    'Tidak ada record yang cocok ditemukan',
-                },
-            });
+            $(document).ready(function() {
+                    var tabelMenu = $('#tblMenu').DataTable({
+                        processing: true,
+                        serverSide: true,
+                        ordering: false,
+                        ajax: '".route('tableMenu')."',
+                        columns: [
+                            { data: 'DT_Row_Index', name: 'DT_Row_Index', class:'text-center', orderable: false, searchable: false},
+                            { data: 'action', name: 'action', class:'text-center', orderable: false, searchable: false},
+                            { data: 'menu_ut', name: 'menu_ut' },
+                            { data: 'name_parent', name: 'name_parent' },
+                            { data: 'header', name: 'header', class:'text-center', orderable: false, searchable: false},
+                            { data: 'divider', name: 'divider', class:'text-center', orderable: false, searchable: false},
+                            { data: 'icon', name: 'icon', class:'text-center', orderable: false, searchable: false},
+                            { data: 'url', name: 'url' },
+                        ],
+                        'dom': '<\'row\' <\'col-md-12\'B>><\'row\'<\'col-md-6 col-sm-12\'l><\'col-md-6 col-sm-12\'f>r><\'table-scrollable\'t><\'row\'<\'col-md-5 col-sm-12\'i><\'col-md-7 col-sm-12\'p>>', 
+                        language:{
+                            'decimal':        '',
+                            'emptyTable':     'Tak ada data yang tersedia pada tabel ini',
+                            'info':           'Tampil _START_ s/d _END_ dari _TOTAL_ baris',
+                            'infoEmpty':      'Menampilkan 0 sampai 0 dari 0 entri',
+                            'infoFiltered':   '(difiler dari total entri _MAX_)',
+                            'infoPostFix':    '',
+                            'thousands':      ',',
+                            'lengthMenu':     '_MENU_ Baris',
+                            'loadingRecords': 'Loading...',
+                            'processing':     '<div class=\"loadingoverlay\" style=\"background-color: rgba(255, 255, 255, 0.8); position: fixed; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2147483647; background-image: url(&quot;/assets/images/loading.gif&quot;); background-position: center center; background-repeat: no-repeat; top: 0px; left: 0px; width: 100%; height: 100%; background-size: 100px;\"></div>',
+                            'search':         'Pencarian :',
+                            'zeroRecords':    'Tidak ada record yang cocok ditemukan',
+                            'paginate': {
+                                'first':      'Pertama',
+                                'last':       'Terakhir',
+                                'next':       'Berikutnya',
+                                'previous':   'Sebelumnya'
+                            }
+                        },
+                    });
 
-    (function () {
-        $('.table-scrollable').on('shown.bs.dropdown', function (e) {
-            var table = $(this),
-                menu = $(e.target).find('.dropdown-menu'),
-                tableOffsetHeight = table.offset().top + table.height(),
-                menuOffsetHeight = menu.offset().top + menu.outerHeight(true);
+                (function () {
+                    $('.table-scrollable').on('shown.bs.dropdown', function (e) {
+                        var table = $(this),
+                            menu = $(e.target).find('.dropdown-menu'),
+                            tableOffsetHeight = table.offset().top + table.height(),
+                            menuOffsetHeight = menu.offset().top + menu.outerHeight(true);
 
-            if (menuOffsetHeight > tableOffsetHeight)
-            table.css('padding-bottom', menuOffsetHeight - tableOffsetHeight);
-        });
+                        if (menuOffsetHeight > tableOffsetHeight)
+                        table.css('padding-bottom', menuOffsetHeight - tableOffsetHeight);
+                    });
 
-        $('.table-scrollable').on('hide.bs.dropdown', function () {
-            $(this).css('padding-bottom', 0);
-        })
-    })();
+                    $('.table-scrollable').on('hide.bs.dropdown', function () {
+                        $(this).css('padding-bottom', 0);
+                    })
+                })();
 
-    $(document).on('click', '.add', function() {
-        showLoading();
-        removeClassModal();
-        $.ajax({
-            url: '/grit/addmodal/'+$(this).data('type'),
-            type: 'GET',
-        })
-        .done(function(data) {
-            $('.modal-dialog').addClass(data.size);
-            $('.modal-title').html(data.title);
-            $('.modal-body').html(data.form);
-            $('.modal-footer').html(data.footer);
-            $('#myModal').modal({'backdrop': 'static'});
-            $('#myModal').modal('show');
-            console.log(\"success\");
-        })
-        .fail(function(data) {
-            console.log(\"error\");
-        })
-        .always(function(data) {
-            hideLoading();
-            console.log(\"complete\");
-        });
-    });
-
-    $(document).on('click', '.btn-edit', function() {
-        showLoading();
-        removeClassModal();
-        $.ajax({
-            url: '/grit/editmodal/'+$(this).data('type')+'/'+$(this).data('ref'),
-            type: 'GET',
-        })
-        .done(function(data) {
-            $('.modal-dialog').addClass(data.size);
-            $('.modal-title').html(data.title);
-            $('.modal-body').html(data.form);
-            $('.modal-footer').html(data.footer);
-            $('#myModal').modal({'backdrop': 'static'});
-            $('#myModal').modal('show');
-            console.log(\"success\");
-        })
-        .fail(function(data) {
-            console.log(\"error\");
-        })
-        .always(function(data) {
-            hideLoading();
-            console.log(\"complete\");
-        });
-    });
-
-    $.getJSON('".route('routeAppName')."', function(json) {
-        $('select[name=name_app]').append(json.data);
-    });
-
-    $('select[name=name_app]').on('change', function(){
-        tabelMenu.ajax.url('".env('menu_url')."/api/table/menu/'+$(this).val()).load();
-    });
-    
-    $('#myModal').on('show.bs.modal',function() {
-        $('.icp-auto').iconpicker();
-        $('select[name=routename]').select2({
-            dropdownParent: $('#myModal')
-        });
-    });
-
-    $('#form').submit( function(e) {
-        e.preventDefault();
-        showLoading();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '".route('routeMenu')."',
-            type: $(\"button:submit\").data('ref'),
-            data:$('#form').serialize(),
-            success: function(data) {
-                if ((data.error)) {
-                    swal('Maaf !',data.error,'error');
-                    console.log(\"error\");
-                    hideLoading();
-                } else {
-                    $('#tblMenu').DataTable().ajax.reload(null,false);
-                    $('#myModal').modal('hide');
-                    swal('Success!','Your Menu has been saved','success');
-                    console.log(\"success\");
-                    hideLoading();
-                }
-            },                
-        });   
-        console.log(\"complete\");
-    });
-
-    $(document).on('click', '.btn-delete', function() {
-        ref = $(this).data('ref');
-        swal({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this!',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: '<i class=\"fa fa-trash\"></i> Yes',
-            cancelButtonText: '<i class=\"fa fa-times\"></i> No',
-            showCancelButton: true,
-            cancelButtonColor: '#d33',
-            confirmButtonColor: '#3085d6',
-        }).then(function() {
-            showLoading();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
-                    }
+                $(document).on('click', '.add', function() {
+                    showLoading();
+                    removeClassModal();
+                    $.ajax({
+                        url: '/grit/addmodal/'+$(this).data('type'),
+                        type: 'GET',
+                    })
+                    .done(function(data) {
+                        $('.modal-dialog').addClass(data.size);
+                        $('.modal-title').html(data.title);
+                        $('.modal-body').html(data.form);
+                        $('.modal-footer').html(data.footer);
+                        $('#myModal').modal({'backdrop': 'static'});
+                        $('#myModal').modal('show');
+                        console.log(\"success\");
+                    })
+                    .fail(function(data) {
+                        console.log(\"error\");
+                    })
+                    .always(function(data) {
+                        hideLoading();
+                        console.log(\"complete\");
+                    });
                 });
-                $.ajax({
-                    url: '".route('routeMenu')."',
-                    type: 'delete',
-                    data: {ref: ref},
-                    success: function(data) {
-                        if ((data.error)) {
-                            swal('Sorry!',data.error,'error');
-                            console.log(\"error\");
-                            hideLoading();
-                        } else {
-                            $('#tblMenu').DataTable().ajax.reload(null,false);
-                            swal('Success!','Your Menu has been deleted!','success');
-                            console.log(\"success\");
-                            hideLoading();
+
+                $(document).on('click', '.btn-edit', function() {
+                    showLoading();
+                    removeClassModal();
+                    $.ajax({
+                        url: '/grit/editmodal/'+$(this).data('type')+'/'+$(this).data('ref'),
+                        type: 'GET',
+                    })
+                    .done(function(data) {
+                        $('.modal-dialog').addClass(data.size);
+                        $('.modal-title').html(data.title);
+                        $('.modal-body').html(data.form);
+                        $('.modal-footer').html(data.footer);
+                        $('#myModal').modal({'backdrop': 'static'});
+                        $('#myModal').modal('show');
+                        console.log(\"success\");
+                    })
+                    .fail(function(data) {
+                        console.log(\"error\");
+                    })
+                    .always(function(data) {
+                        hideLoading();
+                        console.log(\"complete\");
+                    });
+                });
+
+                $.getJSON('".route('routeAppName')."', function(json) {
+                    $('select[name=name_app]').append(json.data);
+                });
+
+                $('select[name=name_app]').on('change', function(){
+                    tabelMenu.ajax.url('".env('menu_url')."/api/table/menu/'+$(this).val()).load();
+                });
+                
+                $('#myModal').on('show.bs.modal',function() {
+                    $('.icp-auto').iconpicker();
+                    $('select[name=routename]').select2({
+                        dropdownParent: $('#myModal')
+                    });
+                });
+
+                $('#form').submit( function(e) {
+                    e.preventDefault();
+                    showLoading();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
                         }
-                    },               
-                });   
-        });
-    });
+                    });
+                    $.ajax({
+                        url: '".route('routeMenu')."',
+                        type: $(\"button:submit\").data('ref'),
+                        data:$('#form').serialize(),
+                        success: function(data) {
+                            if ((data.error)) {
+                                swal('Maaf !',data.error,'error');
+                                console.log(\"error\");
+                                hideLoading();
+                            } else {
+                                $('#tblMenu').DataTable().ajax.reload(null,false);
+                                $('#myModal').modal('hide');
+                                console.log(\"success\");
+                                swalSuccess();
+                                hideLoading();
+                            }
+                        },                
+                    });   
+                    console.log(\"complete\");
+                });
 
-    function preview(){
-        $.getJSON('".route('routePreviewMenu')."', function(json) {
-            $('#preview').html(json.data);
-            $('.fa-refresh').removeClass('fa-spin');
-        });
-    };
+                $(document).on('click', '.btn-delete', function() {
+                    ref = $(this).data('ref');
+                    swal({
+                        title: 'Apa Anda yakin akan menghapusnya?',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: '<i class=\"fa fa-trash\"></i> Ya',
+                        cancelButtonText: '<i class=\"fa fa-times\"></i> Tidak',
+                        showCancelButton: true,
+                        cancelButtonColor: '#d33',
+                        confirmButtonColor: '#3085d6',
+                    }).then((result) => {
+                        if (result.value) {
+                            showLoading();
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
+                                }
+                            });
+                            $.ajax({
+                                url: '".route('routeMenu')."',
+                                type: 'delete',
+                                data: {ref: ref},
+                                success: function(data) {
+                                    if ((data.error)) {
+                                        swal('Sorry!',data.error,'error');
+                                        console.log(\"error\");
+                                        hideLoading();
+                                    } else {
+                                        $('#tblMenu').DataTable().ajax.reload(null,false);
+                                        swalDeleted();
+                                        console.log(\"success\");
+                                        hideLoading();
+                                    }
+                                },               
+                            });   
+                        }
+                    });
+                       
+                });
 
-    preview();
+                function preview(){
+                    $.getJSON('".route('routePreviewMenu')."', function(json) {
+                        $('#preview').html(json.data);
+                        $('.fa-refresh').removeClass('fa-spin');
+                    });
+                };
 
-    $(document).on('click', '#btn-preview', function() {
-        $('#preview').html('');
-        $('.fa-refresh').addClass('fa-spin');
-        preview();
-    });
-    
-});
+                preview();
+
+                $(document).on('click', '#btn-preview', function() {
+                    $('#preview').html('');
+                    $('.fa-refresh').addClass('fa-spin');
+                    preview();
+                });
+                
+            });
+        </script>";
+        return $html;
+    }
+
+    public function scriptSettingRolePermission()
+    {
+        $html = "
+        <script type=\"text/javascript\" src=\"".asset('vendor/fontawesome-iconpicker/js/fontawesome-iconpicker.js')."\"></script>
+        <script type=\"text/javascript\" src=\"".asset('vendor/js/main.js')."\"></script>
+        <script type=\"text/javascript\" src=\"".asset('vendor/select2/js/select2.full.min.js')."\"></script>
+        <script>
+            $(document).ready(function() {
+                    var tabelRole = $('#tblRole').DataTable({
+                        processing: true,
+                        serverSide: true,
+                        ordering: false,
+                        ajax: '".route('tableRole')."',
+                        columns: [
+                            { data: 'DT_Row_Index', name: 'DT_Row_Index', class:'text-center', orderable: false, searchable: false},
+                            { data: 'action', name: 'action', class:'text-center', orderable: false, searchable: false},
+                            { data: 'usr_akses', name: 'usr_akses' },
+                            { data: 'ket_akses', name: 'ket_akses' },
+                        ],
+                        'dom': '<\'row\' <\'col-md-12\'B>><\'row\'<\'col-md-6 col-sm-12\'l><\'col-md-6 col-sm-12\'f>r><\'table-scrollable\'t><\'row\'<\'col-md-5 col-sm-12\'i><\'col-md-7 col-sm-12\'p>>', 
+                        language:{
+                            'decimal':        '',
+                            'emptyTable':     'Tak ada data yang tersedia pada tabel ini',
+                            'info':           'Tampil _START_ s/d _END_ dari _TOTAL_ baris',
+                            'infoEmpty':      'Menampilkan 0 sampai 0 dari 0 entri',
+                            'infoFiltered':   '(difiler dari total entri _MAX_)',
+                            'infoPostFix':    '',
+                            'thousands':      ',',
+                            'lengthMenu':     '_MENU_ Baris',
+                            'loadingRecords': 'Loading...',
+                            'processing':     '<div class=\"loadingoverlay\" style=\"background-color: rgba(255, 255, 255, 0.8); position: fixed; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2147483647; background-image: url(&quot;/assets/images/loading.gif&quot;); background-position: center center; background-repeat: no-repeat; top: 0px; left: 0px; width: 100%; height: 100%; background-size: 100px;\"></div>',
+                            'search':         'Pencarian :',
+                            'zeroRecords':    'Tidak ada record yang cocok ditemukan',
+                            'paginate': {
+                                'first':      'Pertama',
+                                'last':       'Terakhir',
+                                'next':       'Berikutnya',
+                                'previous':   'Sebelumnya'
+                            }
+                        },
+                    });
+                    var tabelRole = $('#tblPermission').DataTable({
+                        processing: true,
+                        serverSide: true,
+                        ordering: false,
+                        ajax: '".route('tablePermission')."',
+                        columns: [
+                            { data: 'DT_Row_Index', name: 'DT_Row_Index', class:'text-center', orderable: false, searchable: false},
+                            { data: 'action', name: 'action', class:'text-center', orderable: false, searchable: false},
+                            { data: 'jns_hak', name: 'jns_hak' },
+                            { data: 'ket_hak', name: 'ket_hak' },
+                        ],
+                        'dom': '<\'row\' <\'col-md-12\'B>><\'row\'<\'col-md-6 col-sm-12\'l><\'col-md-6 col-sm-12\'f>r><\'table-scrollable\'t><\'row\'<\'col-md-5 col-sm-12\'i><\'col-md-7 col-sm-12\'p>>', 
+                        language:{
+                            'decimal':        '',
+                            'emptyTable':     'Tak ada data yang tersedia pada tabel ini',
+                            'info':           'Tampil _START_ s/d _END_ dari _TOTAL_ baris',
+                            'infoEmpty':      'Menampilkan 0 sampai 0 dari 0 entri',
+                            'infoFiltered':   '(difiler dari total entri _MAX_)',
+                            'infoPostFix':    '',
+                            'thousands':      ',',
+                            'lengthMenu':     '_MENU_ Baris',
+                            'loadingRecords': 'Loading...',
+                            'processing':     '<div class=\"loadingoverlay\" style=\"background-color: rgba(255, 255, 255, 0.8); position: fixed; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2147483647; background-image: url(&quot;/assets/images/loading.gif&quot;); background-position: center center; background-repeat: no-repeat; top: 0px; left: 0px; width: 100%; height: 100%; background-size: 100px;\"></div>',
+                            'search':         'Pencarian :',
+                            'zeroRecords':    'Tidak ada record yang cocok ditemukan',
+                            'paginate': {
+                                'first':      'Pertama',
+                                'last':       'Terakhir',
+                                'next':       'Berikutnya',
+                                'previous':   'Sebelumnya'
+                            }
+                        },
+                    });
+
+                (function () {
+                    $('.table-scrollable').on('shown.bs.dropdown', function (e) {
+                        var table = $(this),
+                            menu = $(e.target).find('.dropdown-menu'),
+                            tableOffsetHeight = table.offset().top + table.height(),
+                            menuOffsetHeight = menu.offset().top + menu.outerHeight(true);
+
+                        if (menuOffsetHeight > tableOffsetHeight)
+                        table.css('padding-bottom', menuOffsetHeight - tableOffsetHeight);
+                    });
+
+                    $('.table-scrollable').on('hide.bs.dropdown', function () {
+                        $(this).css('padding-bottom', 0);
+                    })
+                })();
+
+                $(document).on('click', '.add', function() {
+                    showLoading();
+                    removeClassModal();
+                    $.ajax({
+                        url: '/grit/addmodal/'+$(this).data('type'),
+                        type: 'GET',
+                    })
+                    .done(function(data) {
+                        $('.modal-dialog').addClass(data.size);
+                        $('.modal-title').html(data.title);
+                        $('.modal-body').html(data.form);
+                        $('.modal-footer').html(data.footer);
+                        $('#myModal').modal({'backdrop': 'static'});
+                        $('#myModal').modal('show');
+                        console.log(\"success\");
+                    })
+                    .fail(function(data) {
+                        console.log(\"error\");
+                    })
+                    .always(function(data) {
+                        hideLoading();
+                        console.log(\"complete\");
+                    });
+                });
+
+                $(document).on('click', '.btn-edit', function() {
+                    showLoading();
+                    removeClassModal();
+                    $.ajax({
+                        url: '/grit/editmodal/'+$(this).data('type')+'/'+$(this).data('ref'),
+                        type: 'GET',
+                    })
+                    .done(function(data) {
+                        $('.modal-dialog').addClass(data.size);
+                        $('.modal-title').html(data.title);
+                        $('.modal-body').html(data.form);
+                        $('.modal-footer').html(data.footer);
+                        $('#myModal').modal({'backdrop': 'static'});
+                        $('#myModal').modal('show');
+                        console.log(\"success\");
+                    })
+                    .fail(function(data) {
+                        console.log(\"error\");
+                    })
+                    .always(function(data) {
+                        hideLoading();
+                        console.log(\"complete\");
+                    });
+                });
+
+                $.getJSON('".route('routeAppName')."', function(json) {
+                    $('select[name=name_app]').append(json.data);
+                });
+
+                $('select[name=name_app]').on('change', function(){
+                    tabelMenu.ajax.url('".env('menu_url')."/api/table/menu/'+$(this).val()).load();
+                });
+                
+                $('#myModal').on('show.bs.modal',function() {
+                    $('.icp-auto').iconpicker();
+                    $('select[name=routename]').select2({
+                        dropdownParent: $('#myModal')
+                    });
+                });
+
+                $('#form').submit( function(e) {
+                    e.preventDefault();
+                    showLoading();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: '".route('routeRP')."',
+                        type: $(\"button:submit\").data('ref'),
+                        data:$('#form').serialize()+'&type='+$(\"button:submit\").data('type'),
+                        success: function(data) {
+                            if ((data.error)) {
+                                swal('Maaf !',data.error,'error');
+                                console.log(\"error\");
+                                hideLoading();
+                            } else {
+                                $('#tblRole').DataTable().ajax.reload(null,false);
+                                $('#tblPermission').DataTable().ajax.reload(null,false);
+                                $('#myModal').modal('hide');
+                                console.log(\"success\");
+                                swalSuccess();
+                                hideLoading();
+                            }
+                        },                
+                    });   
+                    console.log(\"complete\");
+                });
+
+                $(document).on('click', '.btn-delete', function() {
+                    ref = $(this).data('ref');
+                    type = $(this).data('type');
+                    swal({
+                        title: 'Apa Anda yakin akan menghapusnya?',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: '<i class=\"fa fa-trash\"></i> Ya',
+                        cancelButtonText: '<i class=\"fa fa-times\"></i> Tidak',
+                        showCancelButton: true,
+                        cancelButtonColor: '#d33',
+                        confirmButtonColor: '#routeRP',
+                    }).then((result) => {
+                        if (result.value) {
+                            showLoading();
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
+                                }
+                            });
+                            $.ajax({
+                                url: '".route('routeRP')."',
+                                type: 'delete',
+                                data: {ref: ref, type:type},
+                                success: function(data) {
+                                    if ((data.error)) {
+                                        swal('Sorry!',data.error,'error');
+                                        console.log(\"error\");
+                                        hideLoading();
+                                    } else {
+                                        $('#tblRole').DataTable().ajax.reload(null,false);
+                                        $('#tblPermission').DataTable().ajax.reload(null,false);
+                                        swalDeleted();
+                                        console.log(\"success\");
+                                        hideLoading();
+                                    }
+                                },               
+                            });   
+                        }
+                    });
+                       
+                });
+
+                function preview(){
+                    $.getJSON('".route('routePreviewMenu')."', function(json) {
+                        $('#preview').html(json.data);
+                        $('.fa-refresh').removeClass('fa-spin');
+                    });
+                };
+
+                preview();
+
+                $(document).on('click', '#btn-preview', function() {
+                    $('#preview').html('');
+                    $('.fa-refresh').addClass('fa-spin');
+                    preview();
+                });
+                
+            });
         </script>";
         return $html;
     }
@@ -336,4 +631,5 @@ class Menu
             </div>';
         return $html;
     }
+    
 }

@@ -13,3 +13,31 @@ function removeClassModal() {
 	$('.modal-dialog').removeClass('modal-md');
 	$('.modal-dialog').removeClass('modal-sm');
 }
+
+function swalSuccess() {
+	const toast = swal.mixin({
+		toast: true,
+		position: 'top-end',
+		showConfirmButton: false,
+		timer: 5000
+	  });
+	  
+	  toast({
+		type: 'success',
+		title: 'Data berhasil disimpan'
+	  })
+}
+
+function swalDeleted() {
+	const toast = swal.mixin({
+		toast: true,
+		position: 'top-end',
+		showConfirmButton: false,
+		timer: 5000
+	  });
+	  
+	  toast({
+		type: 'success',
+		title: 'Data berhasil dihapus'
+	  })
+}

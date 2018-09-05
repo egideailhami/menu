@@ -5,6 +5,8 @@ namespace Egideailhami\Menu\Controllers;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use Egideailhami\Menu\Models\Menu as DataMenu;
+use Egideailhami\Menu\Models\AksesUsr as DataRole;
+use Egideailhami\Menu\Models\AksesHak as DataPermission;
 use Illuminate\Support\Facades\Crypt;
 
 class TableController extends Controller
@@ -23,8 +25,8 @@ class TableController extends Controller
             <a href="javascript:;" class="btn btn-default btn-xs" data-toggle="dropdown">
             <i class="fa fa-cog"> &nbsp; <i class="fa fa-caret-down"></i></i></a>
             <ul class="dropdown-menu">
-            <li><a href="javascript:;" data-type="menu"data-ref="'.Crypt::encryptstring($data->id_mnu.'&20tekNo17').'" class="btn-edit"><i class="fa fa-pencil"></i> Edit </a></li>
-            <li><a href="javascript:;" data-type="menu"data-ref="'.Crypt::encryptstring($data->id_mnu.'&20tekNo17').'" class="btn-delete"><i class="fa fa-trash-o delete-tag"></i> Delete </a></li>
+            <li><a href="javascript:;" data-type="menu" data-ref="'.Crypt::encryptstring($data->id_mnu.'&20tekNo17').'" class="btn-edit"><i class="fa fa-pencil"></i> Edit </a></li>
+            <li><a href="javascript:;" data-type="menu" data-ref="'.Crypt::encryptstring($data->id_mnu.'&20tekNo17').'" class="btn-delete"><i class="fa fa-trash-o delete-tag"></i> Delete </a></li>
             </ul>
             </div>
             </div>
@@ -49,6 +51,54 @@ class TableController extends Controller
         });
 
         $result->rawColumns(['action','name_parent','header','divider','icon']);
+
+        return $result->addindexcolumn()->make(true);
+    }
+
+    public function tableRole()
+    {
+        $data=DataRole::query();
+        $result = Datatables::of($data);
+
+        $result->addColumn('action', function ($data) {
+            return '<div class="btn-toolbar">
+            <div class="btn-group">
+            <a href="javascript:;" class="btn btn-default btn-xs" data-toggle="dropdown">
+            <i class="fa fa-cog"> &nbsp; <i class="fa fa-caret-down"></i></i></a>
+            <ul class="dropdown-menu">
+            <li><a href="javascript:;" data-type="role" data-ref="'.Crypt::encryptstring($data->id_uaks.'&20tekNo17').'" class="btn-edit"><i class="fa fa-pencil"></i> Edit </a></li>
+            <li><a href="javascript:;" data-type="role" data-ref="'.Crypt::encryptstring($data->id_uaks.'&20tekNo17').'" class="btn-delete"><i class="fa fa-trash-o delete-tag"></i> Delete </a></li>
+            </ul>
+            </div>
+            </div>
+            ';
+        });
+
+        $result->rawColumns(['action']);
+
+        return $result->addindexcolumn()->make(true);
+    }
+    
+    public function tablePermission()
+    {
+        $data=DataPermission::query();
+        $result = Datatables::of($data);
+
+        $result->addColumn('action', function ($data) {
+            return '<div class="btn-toolbar">
+            <div class="btn-group">
+            <a href="javascript:;" class="btn btn-default btn-xs" data-toggle="dropdown">
+            <i class="fa fa-cog"> &nbsp; <i class="fa fa-caret-down"></i></i></a>
+            <ul class="dropdown-menu">
+            <li><a href="javascript:;" data-type="permission" data-ref="'.Crypt::encryptstring($data->id_akk.'&20tekNo17').'" class="btn-edit"><i class="fa fa-pencil"></i> Edit </a></li>
+            <li><a href="javascript:;" data-type="permission" data-ref="'.Crypt::encryptstring($data->id_akk.'&20tekNo17').'" class="btn-delete"><i class="fa fa-trash-o delete-tag"></i> Delete </a></li>
+            </ul>
+            </div>
+            </div>
+            ';
+        });
+
+        $result->rawColumns(['action']);
 
         return $result->addindexcolumn()->make(true);
     }

@@ -25,6 +25,7 @@ class CreateUsrWebTables extends Migration
             $table->integer('id_uaks')->default(0);
             $table->integer('rec_usr')->default(0);
             $table->timestamps();
+            $table->rememberToken();
             $table->softDeletes();
         });
     }

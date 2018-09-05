@@ -4,6 +4,8 @@ namespace Egideailhami\Menu\Controllers;
 
 use Illuminate\Http\Request;
 use Egideailhami\Menu\Models\Menu as DataMenu;
+use Egideailhami\Menu\Models\AksesUsr as DataRole;
+use Egideailhami\Menu\Models\AksesHak as DataPermission;
 
 use Illuminate\Support\Facades\Crypt;
 
@@ -12,6 +14,46 @@ class ModalController extends Controller
     public function addmodal($name)
     {
         switch ($name) {
+            case 'role':
+                $size = 'modal-sm';
+                $title = '<i class="fa fa-plus text-primary"></i><span class="text-primary"> Tambah</span> Peran User (Role)';
+                $form = '<div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama Peran (Role)</label>
+                                    <input type="text" name="usr_akses" class="form-control " placeholder="Nama Peran (Role)" maxlength="50" required="required">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Keterangan Peran (Role)</label>
+                                    <input type="text" name="ket_akses" class="form-control " placeholder="Keternagan Peran (Role)" maxlength="50" required="required">
+                                </div>
+                            </div>
+                        </div>';
+                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST" data-type="role"><i class="fa fa-check"></i> Simpan</span></button>';
+                return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
+            break;
+            case 'permission':
+                $size = 'modal-sm';
+                $title = '<i class="fa fa-plus text-primary"></i><span class="text-primary"> Tambah</span> Ijin User';
+                $form = '<div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama Ijin (Permission)</label>
+                                    <input type="text" name="jns_hak" class="form-control " placeholder="Nama Ijin (Permission)" maxlength="50" required="required">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Keterangan Ijin (Permission)</label>
+                                    <input type="text" name="ket_hak" class="form-control " placeholder="Keternagan Ijin (Permission)" maxlength="50" required="required">
+                                </div>
+                            </div>
+                        </div>';
+                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST" data-type="permission"><i class="fa fa-check"></i> Simpan</span></button>';
+                return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
+            break;
             case 'menu':
                 $routeCollection = \Route::getRoutes();
                 $route = '';
@@ -26,7 +68,7 @@ class ModalController extends Controller
                     $option .='<option value="'.$value->id_mnu.'">'.$value->menu_ut.'</option>';
                 }
                 $size = 'modal-lg';
-                $title = '<i class="fa fa-plus text-primary"></i><span class="text-primary"> Insert</span> Menu';
+                $title = '<i class="fa fa-plus text-primary"></i><span class="text-primary"> Tambah</span> Menu';
                 $form = '<div class="row">
                             <div class="col-md-5">
                                 <div class="form-group">
@@ -89,9 +131,9 @@ class ModalController extends Controller
                                 </div>
                             </div>
                         </div>';
-                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST"><i class="fa fa-check"></i> Save</span></button>';
+                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST"><i class="fa fa-check"></i> Simpan</span></button>';
                 return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
-                    break;
+            break;
            
             default:
                 # code...
@@ -101,6 +143,50 @@ class ModalController extends Controller
     public function editmodal($name,$id,Request $request)
     {
         switch ($name) {
+            case 'role':
+                $model = DataRole::find(explode('&',Crypt::decryptstring($id))[0]);
+                $size = 'modal-sm';
+                $title = '<i class="fa fa-plus text-primary"></i><span class="text-primary"> Edit</span> Peran User (Role)';
+                $form = '<div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama Peran (Role)</label>
+                                    <input type="hidden" name="ref" value="'.$id.'" required="required">
+                                    <input type="text" name="usr_akses" class="form-control " placeholder="Nama Peran (Role)" value="'.$model->usr_akses.'" maxlength="50" required="required">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Keterangan Peran (Role)</label>
+                                    <input type="text" name="ket_akses" class="form-control " placeholder="Keternagan Peran (Role)" value="'.$model->ket_akses.'" maxlength="50" required="required">
+                                </div>
+                            </div>
+                        </div>';
+                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="PUT" data-type="role"><i class="fa fa-check"></i> Simpan</span></button>';
+                return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
+            break;
+            case 'permission':
+                $model = DataPermission::find(explode('&',Crypt::decryptstring($id))[0]);
+                $size = 'modal-sm';
+                $title = '<i class="fa fa-plus text-primary"></i><span class="text-primary"> Edit</span> Ijin User';
+                $form = '<div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama Ijin (Permission)</label>
+                                    <input type="hidden" name="ref" value="'.$id.'" required="required">
+                                    <input type="text" name="jns_hak" class="form-control " placeholder="Nama Ijin (Permission)" value="'.$model->jns_hak.'"  maxlength="50" required="required">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Keterangan Ijin (Permission)</label>
+                                    <input type="text" name="ket_hak" class="form-control " placeholder="Keternagan Ijin (Permission)" value="'.$model->ket_hak.'" maxlength="50" required="required">
+                                </div>
+                            </div>
+                        </div>';
+                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="PUT" data-type="permission"><i class="fa fa-check"></i> Simpan</span></button>';
+                return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
+            break;
             case 'menu':
                     $id_decrypt = explode('&',Crypt::decryptstring($id))[0];
                     $model = DataMenu::where('id_mnu',$id_decrypt)->first();
@@ -181,7 +267,7 @@ class ModalController extends Controller
                                     </div>
                                 </div>
                             </div>';
-                    $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="PUT"><i class="fa fa-check"></i> Save</span></button>';
+                    $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="PUT"><i class="fa fa-check"></i> Simpan</span></button>';
                     return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
                     break;
             
