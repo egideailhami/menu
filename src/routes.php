@@ -14,5 +14,6 @@ Route::group(['prefix'=>env('menu_url').'/api'], function () {
         Route::get('/menu/{app?}', 'Egideailhami\Menu\Controllers\TableController@tableMenu')->name('tableMenu');
         Route::get('/role', 'Egideailhami\Menu\Controllers\TableController@tableRole')->name('tableRole');
         Route::get('/permission', 'Egideailhami\Menu\Controllers\TableController@tablePermission')->name('tablePermission');
+        Route::get('/user', 'Egideailhami\Menu\Controllers\TableController@tableUser')->name('tableUser');
     });
 });

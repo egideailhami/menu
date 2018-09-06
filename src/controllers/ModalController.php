@@ -14,6 +14,43 @@ class ModalController extends Controller
     public function addmodal($name)
     {
         switch ($name) {
+            case 'user':
+                $size = 'modal-md';
+                $option='';
+                // dd(explode(',',env('tabel_sumber')));
+                foreach (explode(',',env('tabel_sumber')) as $key => $value) {
+                    $option .='<option value="'.$key.'">'.$value.'</option>';
+                }
+                $title = '<i class="fa fa-plus text-primary"></i><span class="text-primary"> Tambah</span> User ';
+                $form = '<div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Nama User</label>
+                                    <input type="text" name="usr_akses" class="form-control " placeholder="Nama User" maxlength="50" required="required">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tipe User</label>
+                                    <select name="tabel_sumber" id="tabel_sumber" class="form-control"><option value="" disabled selected>Tipe User</option>'.$option.'</select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Nama Lengkap</label>
+                                    <input type="text" name="ket_akses" class="form-control " placeholder="Nama Lengkap" maxlength="50" required="required">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Role</label>
+                                    <select name="role" id="role" class="form-control"><option value="" disabled selected>Pilih Role</option>'.$option.'</select>
+                                </div>
+                            </div>
+                        </div>';
+                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST" data-type="role"><i class="fa fa-check"></i> Simpan</span></button>';
+                return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
+            break;
             case 'role':
                 $size = 'modal-sm';
                 $title = '<i class="fa fa-plus text-primary"></i><span class="text-primary"> Tambah</span> Peran User (Role)';
@@ -27,7 +64,7 @@ class ModalController extends Controller
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Keterangan Peran (Role)</label>
-                                    <input type="text" name="ket_akses" class="form-control " placeholder="Keternagan Peran (Role)" maxlength="50" required="required">
+                                    <input type="text" name="ket_akses" class="form-control " placeholder="Keterangan Peran (Role)" maxlength="50" required="required">
                                 </div>
                             </div>
                         </div>';
@@ -47,7 +84,7 @@ class ModalController extends Controller
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Keterangan Ijin (Permission)</label>
-                                    <input type="text" name="ket_hak" class="form-control " placeholder="Keternagan Ijin (Permission)" maxlength="50" required="required">
+                                    <input type="text" name="ket_hak" class="form-control " placeholder="Keterangan Ijin (Permission)" maxlength="50" required="required">
                                 </div>
                             </div>
                         </div>';
@@ -85,7 +122,7 @@ class ModalController extends Controller
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Header
-                                    <div class="c-checkbox">
+                                    <div class="c-checkbox" style="margin-top:10px">
                                     <label>
                                         <input type="checkbox" name="header">
                                         <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
@@ -121,7 +158,7 @@ class ModalController extends Controller
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Divider
-                                    <div class="c-checkbox">
+                                    <div class="c-checkbox" style="margin-top:10px">
                                     <label>
                                         <input type="checkbox" name="divider">
                                         <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
@@ -158,7 +195,7 @@ class ModalController extends Controller
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Keterangan Peran (Role)</label>
-                                    <input type="text" name="ket_akses" class="form-control " placeholder="Keternagan Peran (Role)" value="'.$model->ket_akses.'" maxlength="50" required="required">
+                                    <input type="text" name="ket_akses" class="form-control " placeholder="Keterangan Peran (Role)" value="'.$model->ket_akses.'" maxlength="50" required="required">
                                 </div>
                             </div>
                         </div>';
@@ -180,7 +217,7 @@ class ModalController extends Controller
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Keterangan Ijin (Permission)</label>
-                                    <input type="text" name="ket_hak" class="form-control " placeholder="Keternagan Ijin (Permission)" value="'.$model->ket_hak.'" maxlength="50" required="required">
+                                    <input type="text" name="ket_hak" class="form-control " placeholder="Keterangan Ijin (Permission)" value="'.$model->ket_hak.'" maxlength="50" required="required">
                                 </div>
                             </div>
                         </div>';
@@ -221,7 +258,7 @@ class ModalController extends Controller
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Header
-                                        <div class="c-checkbox">
+                                        <div class="c-checkbox" style="margin-top:10px">
                                         <label>
                                             <input type="checkbox" name="header">
                                             <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
@@ -257,7 +294,7 @@ class ModalController extends Controller
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Divider
-                                        <div class="c-checkbox">
+                                        <div class="c-checkbox" style="margin-top:10px">
                                         <label>
                                             <input type="checkbox" name="divider">
                                             <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>

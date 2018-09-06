@@ -23,7 +23,7 @@ class FormController extends Controller
     
     public function getPreview()
     {
-        $html = preg_replace("/\r\n|\r|\n/",'',\GritTekno::header(env('menu_app')));
+        $html = preg_replace("/\r\n|\r|\n/",'',\GritTekno::header(env('nama_app')));
         return response()->json(["data" => $html]);
     }
     
@@ -49,7 +49,7 @@ class FormController extends Controller
 
             if ($request->isMethod('post')) {
                 $model = new DataMenu;
-                $model->app = env('menu_app');
+                $model->app = env('nama_app');
                 $model->menu_ut = $request->menu_ut;
                 $model->id_parent = $request->id_parent ;
                 $model->divider = $request->divider ? 1 : 0 ;
@@ -65,8 +65,8 @@ class FormController extends Controller
             if ($request->isMethod('put')) {
                 $id=explode('&',Crypt::decryptstring($request->ref))[0];
                 $model = DataMenu::where('id_mnu',$id)->first();
-                $model->app = env('menu_app');
-                $model->app = env('menu_app');
+                $model->app = env('nama_app');
+                $model->app = env('nama_app');
                 $model->menu_ut = $request->menu_ut;
                 $model->id_parent = $request->id_parent ;
                 $model->divider = $request->divider ? 1 : 0 ;

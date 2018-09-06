@@ -17,7 +17,11 @@ class UsrWeb extends Authenticatable
 
     protected $dates = ['deleted_at'];
     protected $hidden = [
-        'pass',
+        'password', 'remember_token',
     ];
     
+    public function aksesUser()
+    {
+        return $this->belongsTo('Egideailhami\Menu\Models\AksesUsr', 'id_uaks', 'id_uaks');
+    }
 }

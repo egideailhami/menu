@@ -15,12 +15,13 @@ class CreateUsrWebTables extends Migration
     {
         Schema::create('usr_web', function (Blueprint $table) {
             $table->increments('id_usr');
+            $table->string('nama_app',50);
             $table->string('namauser',25);
             $table->string('password');
-            $table->string('tbl_sumber',30);
-            $table->integer('key_relasi');
+            $table->string('tbl_sumber',30)->nullable();
+            $table->integer('key_relasi')->nullable();
             $table->string('nama_lkp',50);
-            $table->string('email_usr',50);
+            $table->string('email_usr',50)->nullable();
             $table->tinyInteger('status');
             $table->integer('id_uaks')->default(0);
             $table->integer('rec_usr')->default(0);

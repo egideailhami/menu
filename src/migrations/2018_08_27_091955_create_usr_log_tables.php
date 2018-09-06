@@ -15,6 +15,7 @@ class CreateUsrLogTables extends Migration
     {
         Schema::create('usr_log', function (Blueprint $table) {
             $table->increments('id_log');
+            $table->string('nama_app',50);
             $table->integer('id_usr');
             $table->string('tabel',20);
             $table->string('idval',20);
