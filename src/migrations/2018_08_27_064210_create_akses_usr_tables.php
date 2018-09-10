@@ -15,6 +15,7 @@ class CreateAksesUsrTables extends Migration
     {
         Schema::create('akses_usr', function (Blueprint $table) {
             $table->increments('id_uaks');
+            $table->string('nama_app',50);
             $table->string('usr_akses',150);
             $table->string('ket_akses',150)->nullable();
             $table->integer('rec_usr')->default(0);

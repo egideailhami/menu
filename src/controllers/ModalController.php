@@ -17,38 +17,43 @@ class ModalController extends Controller
             case 'user':
                 $size = 'modal-md';
                 $option='';
+                $option2='';
                 // dd(explode(',',env('tabel_sumber')));
                 foreach (explode(',',env('tabel_sumber')) as $key => $value) {
                     $option .='<option value="'.$key.'">'.$value.'</option>';
+                }
+                foreach (DataRole::where('nama_app',env('nama_app'))->where('usr_akses','!=','superuser')->get() as $key => $value) {
+                    $option2 .='<option value="'.$value->id_uaks.'">'.$value->usr_akses.'</option>';
                 }
                 $title = '<i class="fa fa-plus text-primary"></i><span class="text-primary"> Tambah</span> User ';
                 $form = '<div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Nama User</label>
-                                    <input type="text" name="usr_akses" class="form-control " placeholder="Nama User" maxlength="50" required="required">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
                                     <label>Tipe User</label>
-                                    <select name="tabel_sumber" id="tabel_sumber" class="form-control"><option value="" disabled selected>Tipe User</option>'.$option.'</select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Nama Lengkap</label>
-                                    <input type="text" name="ket_akses" class="form-control " placeholder="Nama Lengkap" maxlength="50" required="required">
+                                    <select name="tabel_sumber" id="tabel_sumber" class="form-control" required="required"><option value="" disabled selected>Tipe User</option>'.$option.'</select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Role</label>
-                                    <select name="role" id="role" class="form-control"><option value="" disabled selected>Pilih Role</option>'.$option.'</select>
+                                    <select name="role" id="role" style="width: 100%;" class="form-control" required="required"><option value="" disabled selected>Pilih Role</option>'.$option2.'</select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama User</label>
+                                    <input type="text" name="namauser" class="form-control " placeholder="Nama User" maxlength="50" required="required">
+                                    <span class="help-block has-error namauser_error"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama Lengkap</label>
+                                    <select name="nama_lkp" id="nama_lkp" style="width: 100%;" class="form-control" required="required">'.$option2.'</select>
                                 </div>
                             </div>
                         </div>';
-                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST" data-type="role"><i class="fa fa-check"></i> Simpan</span></button>';
+                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST" data-type="user"><i class="fa fa-check"></i> Simpan</span></button>';
                 return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
             break;
             case 'role':

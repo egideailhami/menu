@@ -1,10 +1,9 @@
 <?php
-namespace Egideailhami\Menu\Seeds;
 
 use Illuminate\Database\Seeder;
 use Egideailhami\Menu\Models\Menu;
 use Egideailhami\Menu\Models\UsrWeb;
-use DB;
+use Egideailhami\Menu\Models\AksesHak;
 
 class SeederMenu extends Seeder
 {
@@ -34,11 +33,18 @@ class SeederMenu extends Seeder
 
         $usr_web = new UsrWeb;
         $usr_web->namauser = 'superuser';
+        $usr_web->nama_app = env('nama_app');
         $usr_web->password = bcrypt('20tekNo17');
         $usr_web->nama_lkp = 'Super User';
         $usr_web->email_usr = 'egideailhami@gmail.com';
         $usr_web->status = 1;
         $usr_web->save();
+
+        $usr_hak = new AksesHak;
+        $usr_hak->jns_hak = 'superuser';
+        $usr_hak->nama_app = env('nama_app');
+        $usr_hak->ket_akses = 'Super User';
+        $usr_hak->save();
 
         DB::table('app_ins')->insert([
             'nama_app'=>env('nama_app'),

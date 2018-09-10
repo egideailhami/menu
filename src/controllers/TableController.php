@@ -7,11 +7,18 @@ use Yajra\Datatables\Datatables;
 use Egideailhami\Menu\Models\Menu as DataMenu;
 use Egideailhami\Menu\Models\AksesUsr as DataRole;
 use Egideailhami\Menu\Models\AksesHak as DataPermission;
+use Egideailhami\Menu\Models\AksesDet;
 use Egideailhami\Menu\Models\UsrWeb as DataUser;
 use Illuminate\Support\Facades\Crypt;
+use Auth;
 
 class TableController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function tableMenu($app = null)
     {
         $data=DataMenu::orderBy('app','asc')->orderBy('id_parent','asc')->orderBy('urut','asc');
@@ -56,9 +63,46 @@ class TableController extends Controller
         return $result->addindexcolumn()->make(true);
     }
 
+    public function tableRoleMenu($filter = null)
+    {
+        $data = DataMenu::where('app',env('nama_app'))->orderBy('id_parent','asc')->orderBy('urut','asc');
+
+        $result = Datatables::of($data);
+
+        $result->addColumn('action', function ($data) use ($filter) {
+            $checked = '';
+            if ($filter != null) {
+                $id_uaks = Crypt::decryptString($filter);
+                $akses_det = AksesDet::where('id_mnu',$data->id_mnu)->where('id_uaks',$id_uaks)->first();
+                if($akses_det != NULL){
+                    $checked = 'checked';
+                }
+                // dd($id_uaks);
+            }
+            return '<input type="checkbox"  name="akses_menu[]" data-ref="'.Crypt::encryptString($data->id_mnu).'" '.$checked.'>';
+        });
+
+        $result->addColumn('menu_ut', function ($data) {
+            return '<i class="'.$data->icon.'"></i> '.$data->menu_ut;
+        });
+
+        $result->addColumn('menu_parent', function ($data) {
+            $menu_parent = '-';
+            if ($data->id_parent != 0) {
+                $menu_parent =  DataMenu::Find($data->id_parent)->menu_ut;
+            }
+            return '<i class="'.$data->icon.'"></i> '.$menu_parent;
+        });
+
+
+        $result->rawColumns(['action','menu_parent','menu_ut']);
+
+        return $result->addindexcolumn()->make(true);
+    }
+
     public function tableRole()
     {
-        $data=DataRole::query();
+        $data=DataRole::where('usr_akses','!=','superuser');
         $result = Datatables::of($data);
 
         $result->addColumn('action', function ($data) {
@@ -106,7 +150,7 @@ class TableController extends Controller
     
     public function tableUser()
     {
-        $data=DataUser::query();
+        $data=DataUser::where('namauser','!=','superuser');
         $result = Datatables::of($data);
 
         $result->addColumn('action', function ($data) {
@@ -131,12 +175,12 @@ class TableController extends Controller
             return $status;
         });
         $result->addColumn('role', function ($data) {
-            return $data->aksesUser->usr_akses;
+            return $data->role->usr_akses;
         });
 
         
 
-        $result->rawColumns(['action','status']);
+        $result->rawColumns(['action','status','role']);
 
         return $result->addindexcolumn()->make(true);
     }

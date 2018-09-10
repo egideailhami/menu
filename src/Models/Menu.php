@@ -20,4 +20,5 @@ class Menu extends Model
     {
         return $this->hasMany('Egideailhami\Menu\Models\AksesDet', 'id_mnu', 'id_mnu');
     }
+    
 }

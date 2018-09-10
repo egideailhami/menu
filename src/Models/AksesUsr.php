@@ -20,4 +20,5 @@ class AksesUsr extends Model
     {
         return $this->hasMany('Egideailhami\Menu\Models\AksesDet', 'id_uaks', 'id_uaks');
     }
+    
 }

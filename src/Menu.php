@@ -31,7 +31,17 @@ class Menu
     {
         $html ='<ul class="nav navbar-nav">';
         $classMenuActive='';
+        $menu_id = [];
+        foreach (\Auth::user()->role->aksesDets as $key => $aksesDet) {
+            $menu_id[] = $aksesDet->id_mnu;
+        };
+        // dd($menu_id);
         foreach (DataMenu::where('id_parent',0)->where('header',0)->where('divider',0)->orderBy('urut','asc')->get() as $key => $menu) {
+            if (\Auth::user()->role->usr_akses != 'superuser') {
+                if(in_array($menu->id_mnu,$menu_id) == false){
+                    break;
+                }
+            }
             $classSubMenuActive='';
             $sub='';
             $tagUl='';
@@ -40,6 +50,11 @@ class Menu
                 $classMenuActive = (\Request::is(ltrim($menu->url,'/')) ? 'active' : '');
             }
             foreach (DataMenu::where('id_parent',$menu->id_mnu)->orderBy('urut','asc')->get() as $key => $submenu) {
+                if (\Auth::user()->role->usr_akses != 'superuser') {
+                    if(in_array($submenu->id_mnu,$menu_id) == false){
+                        break;
+                    }
+                }
                 $classSubMenuActive .= (\Request::is(ltrim($submenu->url,'/'))  ? 'active' : '');
                 $sub .= ($submenu->header == 1 ? "<li class='dropdown-header ".(\Request::is(ltrim($submenu->url,'/')) ? 'active' : '')."'> ".$submenu->menu_ut."</li>":'<li aria-haspopup="true" class="'.(\Request::is(ltrim($submenu->url,'/')) ? "active" : '').'">
                 <a href="'.($submenu->url !=  '#' ? $submenu->url :"javascript:;").'" class="nav-link  "><i class="'.$submenu->icon.'"></i> '.$submenu->menu_ut.' </a>
@@ -133,6 +148,22 @@ class Menu
     </table>';
         return $html;
     }
+    public function tableRoleMenu()
+    {
+        $html = '<table class="table table-hover" id="tblRoleMenu">
+        <thead>
+            <tr>
+            <th class="w25">No</th>
+            <th class="w25 text-center">
+                <input type="checkbox"  name="all_akses">
+            </th>
+            <th class="w200 ">Display Menu</th>
+            <th>Menu Parent</th>
+            </tr>
+        </thead>
+    </table>';
+        return $html;
+    }
 
     public function tableUser()
     {
@@ -158,19 +189,19 @@ class Menu
     public function tablePermission()
     {
         $html = '<table class="table table-hover" id="tblPermission">
-        <thead>
-            <tr>
-            <th class="w25">No</th>
-            <th class="w25 text-center">
-                <a href="javascript:;" class="btn btn-info btn-xs blue add" data-type="permission">
-                    <i class="fa fa-plus fa-fw"></i>
-                </a>
-            </th>
-            <th class="w200 ">Ijin User</th>
-            <th>Keterangan Ijin</th>
-            </tr>
-        </thead>
-    </table>';
+                    <thead>
+                        <tr>
+                        <th class="w25">No</th>
+                        <th class="w25 text-center">
+                            <a href="javascript:;" class="btn btn-info btn-xs blue add" data-type="permission">
+                                <i class="fa fa-plus fa-fw"></i>
+                            </a>
+                        </th>
+                        <th class="w200 ">Ijin User</th>
+                        <th>Keterangan Ijin</th>
+                        </tr>
+                    </thead>
+                </table>';
         return $html;
     }
 
@@ -237,7 +268,7 @@ class Menu
                 })();
 
                 $(document).on('click', '.add', function() {
-                    showLoading();
+                    showLoadingMenu();
                     removeClassModal();
                     $.ajax({
                         url: '/grit/addmodal/'+$(this).data('type'),
@@ -256,13 +287,13 @@ class Menu
                         console.log(\"error\");
                     })
                     .always(function(data) {
-                        hideLoading();
+                        hideLoadingMenu();
                         console.log(\"complete\");
                     });
                 });
 
                 $(document).on('click', '.btn-edit', function() {
-                    showLoading();
+                    showLoadingMenu();
                     removeClassModal();
                     $.ajax({
                         url: '/grit/editmodal/'+$(this).data('type')+'/'+$(this).data('ref'),
@@ -281,7 +312,7 @@ class Menu
                         console.log(\"error\");
                     })
                     .always(function(data) {
-                        hideLoading();
+                        hideLoadingMenu();
                         console.log(\"complete\");
                     });
                 });
@@ -303,7 +334,7 @@ class Menu
 
                 $('#form').submit( function(e) {
                     e.preventDefault();
-                    showLoading();
+                    showLoadingMenu();
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
@@ -317,13 +348,13 @@ class Menu
                             if ((data.error)) {
                                 swal('Maaf !',data.error,'error');
                                 console.log(\"error\");
-                                hideLoading();
+                                hideLoadingMenu();
                             } else {
                                 $('#tblMenu').DataTable().ajax.reload(null,false);
                                 $('#myModal').modal('hide');
                                 console.log(\"success\");
                                 swalSuccess();
-                                hideLoading();
+                                hideLoadingMenu();
                             }
                         },                
                     });   
@@ -343,7 +374,7 @@ class Menu
                         confirmButtonColor: '#3085d6',
                     }).then((result) => {
                         if (result.value) {
-                            showLoading();
+                            showLoadingMenu();
                             $.ajaxSetup({
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
@@ -357,12 +388,12 @@ class Menu
                                     if ((data.error)) {
                                         swal('Sorry!',data.error,'error');
                                         console.log(\"error\");
-                                        hideLoading();
+                                        hideLoadingMenu();
                                     } else {
                                         $('#tblMenu').DataTable().ajax.reload(null,false);
                                         swalDeleted();
                                         console.log(\"success\");
-                                        hideLoading();
+                                        hideLoadingMenu();
                                     }
                                 },               
                             });   
@@ -452,7 +483,7 @@ class Menu
                 })();
 
                 $(document).on('click', '.add', function() {
-                    showLoading();
+                    showLoadingMenu();
                     removeClassModal();
                     $.ajax({
                         url: '/grit/addmodal/'+$(this).data('type'),
@@ -471,13 +502,13 @@ class Menu
                         console.log(\"error\");
                     })
                     .always(function(data) {
-                        hideLoading();
+                        hideLoadingMenu();
                         console.log(\"complete\");
                     });
                 });
 
                 $(document).on('click', '.btn-edit', function() {
-                    showLoading();
+                    showLoadingMenu();
                     removeClassModal();
                     $.ajax({
                         url: '/grit/editmodal/'+$(this).data('type')+'/'+$(this).data('ref'),
@@ -496,51 +527,73 @@ class Menu
                         console.log(\"error\");
                     })
                     .always(function(data) {
-                        hideLoading();
+                        hideLoadingMenu();
                         console.log(\"complete\");
                     });
                 });
 
-                $.getJSON('".route('routeAppName')."', function(json) {
-                    $('select[name=name_app]').append(json.data);
-                });
-
-                $('select[name=name_app]').on('change', function(){
-                    tabelMenu.ajax.url('".env('menu_url')."/api/table/menu/'+$(this).val()).load();
-                });
-                
                 $('#myModal').on('show.bs.modal',function() {
-                    $('.icp-auto').iconpicker();
-                    $('select[name=routename]').select2({
+                    $('#tabel_sumber').change(function(){
+                        showLoadingMenu();
+                        var myObject = {key:$(this).val()};
+                        $.getJSON('".route('routeNamaUser')."',myObject, function(json) {
+                            $('select[name=nama_lkp').html(json.data);
+                        });
+                        hideLoadingMenu();
+                    });
+
+                    $('select[name=role]').select2({
+                        dropdownParent: $('#myModal')
+                    });
+                    
+                    $('select[name=nama_lkp]').select2({
                         dropdownParent: $('#myModal')
                     });
                 });
 
                 $('#form').submit( function(e) {
                     e.preventDefault();
-                    showLoading();
+                    showLoadingMenu();
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
                         }
                     });
                     $.ajax({
-                        url: '".route('routeMenu')."',
+                        url: '".route('routeUser')."',
                         type: $(\"button:submit\").data('ref'),
                         data:$('#form').serialize(),
                         success: function(data) {
                             if ((data.error)) {
                                 swal('Maaf !',data.error,'error');
                                 console.log(\"error\");
-                                hideLoading();
+                                hideLoadingMenu();
                             } else {
-                                $('#tblMenu').DataTable().ajax.reload(null,false);
+                                $('#tblUser').DataTable().ajax.reload(null,false);
                                 $('#myModal').modal('hide');
                                 console.log(\"success\");
                                 swalSuccess();
-                                hideLoading();
+                                hideLoadingMenu();
                             }
-                        },                
+                        },  
+                        error: function (data) {
+                            $('input').on('keydown keypress keyup click change',function(){
+                                $(this).parent().removeClass('has-error');                                                       
+
+                                $(this).next('.help-block').hide() 
+                            });
+
+                            $('.form-group').removeClass('has-error');
+                            $('.help-block').hide();
+
+                            var coba = new Array();
+                            $.each(data.responseJSON.errors, function(name,value){
+                                $('input[name='+name+']').parent().addClass('has-error'); 
+                                $('input[name='+name+']').next('.help-block').show().text(value); 
+                            });
+                            hideLoadingMenu();
+                            $('input[name='+coba[0]+']').focus();
+                        }                    
                     });   
                     console.log(\"complete\");
                 });
@@ -558,7 +611,7 @@ class Menu
                         confirmButtonColor: '#3085d6',
                     }).then((result) => {
                         if (result.value) {
-                            showLoading();
+                            showLoadingMenu();
                             $.ajaxSetup({
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
@@ -572,35 +625,18 @@ class Menu
                                     if ((data.error)) {
                                         swal('Sorry!',data.error,'error');
                                         console.log(\"error\");
-                                        hideLoading();
+                                        hideLoadingMenu();
                                     } else {
                                         $('#tblMenu').DataTable().ajax.reload(null,false);
                                         swalDeleted();
                                         console.log(\"success\");
-                                        hideLoading();
+                                        hideLoadingMenu();
                                     }
                                 },               
                             });   
                         }
                     });
-                       
                 });
-
-                function preview(){
-                    $.getJSON('".route('routePreviewMenu')."', function(json) {
-                        $('#preview').html(json.data);
-                        $('.fa-refresh').removeClass('fa-spin');
-                    });
-                };
-
-                preview();
-
-                $(document).on('click', '#btn-preview', function() {
-                    $('#preview').html('');
-                    $('.fa-refresh').addClass('fa-spin');
-                    preview();
-                });
-                
             });
         </script>";
         return $html;
@@ -681,6 +717,40 @@ class Menu
                         },
                     });
 
+                    var tabelRoleMenu = $('#tblRoleMenu').DataTable({
+                        processing: true,
+                        serverSide: true,
+                        ordering: false,
+                        ajax: '".route('tableRoleMenu')."',
+                        columns: [
+                            { data: 'DT_Row_Index', name: 'DT_Row_Index', class:'text-center', orderable: false, searchable: false},
+                            { data: 'action', name: 'action', class:'text-center', orderable: false, searchable: false},
+                            { data: 'menu_ut', name: 'menu_ut' },
+                            { data: 'menu_parent', name: 'menu_parent' },
+                        ],
+                        'dom': '<\'row\' <\'col-md-12\'B>><\'row\'<\'col-md-6 col-sm-12\'l><\'col-md-6 col-sm-12\'f>r><\'table-scrollable\'t><\'row\'<\'col-md-5 col-sm-12\'i><\'col-md-7 col-sm-12\'p>>', 
+                        language:{
+                            'decimal':        '',
+                            'emptyTable':     'Tak ada data yang tersedia pada tabel ini',
+                            'info':           'Tampil _START_ s/d _END_ dari _TOTAL_ baris',
+                            'infoEmpty':      'Menampilkan 0 sampai 0 dari 0 entri',
+                            'infoFiltered':   '(difiler dari total entri _MAX_)',
+                            'infoPostFix':    '',
+                            'thousands':      ',',
+                            'lengthMenu':     '_MENU_ Baris',
+                            'loadingRecords': 'Loading...',
+                            'processing':     '<div class=\"loadingoverlay\" style=\"background-color: rgba(255, 255, 255, 0.8); position: fixed; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2147483647; background-image: url(&quot;/assets/images/loading.gif&quot;); background-position: center center; background-repeat: no-repeat; top: 0px; left: 0px; width: 100%; height: 100%; background-size: 100px;\"></div>',
+                            'search':         'Pencarian :',
+                            'zeroRecords':    'Tidak ada record yang cocok ditemukan',
+                            'paginate': {
+                                'first':      'Pertama',
+                                'last':       'Terakhir',
+                                'next':       'Berikutnya',
+                                'previous':   'Sebelumnya'
+                            }
+                        },
+                    });
+
                 (function () {
                     $('.table-scrollable').on('shown.bs.dropdown', function (e) {
                         var table = $(this),
@@ -698,7 +768,7 @@ class Menu
                 })();
 
                 $(document).on('click', '.add', function() {
-                    showLoading();
+                    showLoadingMenu();
                     removeClassModal();
                     $.ajax({
                         url: '/grit/addmodal/'+$(this).data('type'),
@@ -717,13 +787,13 @@ class Menu
                         console.log(\"error\");
                     })
                     .always(function(data) {
-                        hideLoading();
+                        hideLoadingMenu();
                         console.log(\"complete\");
                     });
                 });
 
                 $(document).on('click', '.btn-edit', function() {
-                    showLoading();
+                    showLoadingMenu();
                     removeClassModal();
                     $.ajax({
                         url: '/grit/editmodal/'+$(this).data('type')+'/'+$(this).data('ref'),
@@ -742,11 +812,47 @@ class Menu
                         console.log(\"error\");
                     })
                     .always(function(data) {
-                        hideLoading();
+                        hideLoadingMenu();
                         console.log(\"complete\");
                     });
                 });
+
+                $('select[name=filter_role_menu]').on('change', function(){
+                    tabelRoleMenu.ajax.url('".env('menu_url')."/api/table/role_menu/'+$(this).val()).load();
+                });
                 
+                $(document).on('click', 'input[name*=akses_menu]', function() {
+                    // showLoadingMenu();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: '".route('route_filter_role_menu')."',
+                        type: 'POST',
+                        data: {
+                            ref: $(this).attr('data-ref'),
+                            role: $('select[name=filter_role_menu]').val()
+                        },
+                        success: function(data) {
+                            if ((data.error)) {
+                                swal('Maaf !',data.error,'error');
+                                console.log(\"error\");
+                                // hideLoadingMenu();
+                            } else {
+                                $('#tblRole').DataTable().ajax.reload(null,false);
+                                $('#tblPermission').DataTable().ajax.reload(null,false);
+                                $('#myModal').modal('hide');
+                                console.log(\"success\");
+                                swalSuccess();
+                                // hideLoadingMenu();
+                            }
+                        },                
+                    });   
+                    console.log(\"complete\");
+                });
+
                 $('#myModal').on('show.bs.modal',function() {
                     $('.icp-auto').iconpicker();
                     $('select[name=routename]').select2({
@@ -756,7 +862,7 @@ class Menu
 
                 $('#form').submit( function(e) {
                     e.preventDefault();
-                    showLoading();
+                    showLoadingMenu();
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
@@ -770,14 +876,14 @@ class Menu
                             if ((data.error)) {
                                 swal('Maaf !',data.error,'error');
                                 console.log(\"error\");
-                                hideLoading();
+                                hideLoadingMenu();
                             } else {
                                 $('#tblRole').DataTable().ajax.reload(null,false);
                                 $('#tblPermission').DataTable().ajax.reload(null,false);
                                 $('#myModal').modal('hide');
                                 console.log(\"success\");
                                 swalSuccess();
-                                hideLoading();
+                                hideLoadingMenu();
                             }
                         },                
                     });   
@@ -798,7 +904,7 @@ class Menu
                         confirmButtonColor: '#routeRP',
                     }).then((result) => {
                         if (result.value) {
-                            showLoading();
+                            showLoadingMenu();
                             $.ajaxSetup({
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
@@ -812,19 +918,24 @@ class Menu
                                     if ((data.error)) {
                                         swal('Sorry!',data.error,'error');
                                         console.log(\"error\");
-                                        hideLoading();
+                                        hideLoadingMenu();
                                     } else {
                                         $('#tblRole').DataTable().ajax.reload(null,false);
                                         $('#tblPermission').DataTable().ajax.reload(null,false);
                                         swalDeleted();
                                         console.log(\"success\");
-                                        hideLoading();
+                                        hideLoadingMenu();
                                     }
                                 },               
                             });   
                         }
                     });
                 });
+            });
+            $.getJSON('".route('route_filter_role_menu')."', function(json) {
+                $('select[name=filter_role_menu]').append(json.data);
+                $('select[name=filter_role_menu]').trigger('change');
+                
             });
         </script>";
         return $html;

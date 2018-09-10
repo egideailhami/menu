@@ -20,8 +20,8 @@ class UsrWeb extends Authenticatable
         'password', 'remember_token',
     ];
     
-    public function aksesUser()
+    public function role()
     {
-        return $this->belongsTo('Egideailhami\Menu\Models\AksesUsr', 'id_uaks', 'id_uaks');
+        return $this->belongsTo('Egideailhami\Menu\Models\AksesUsr', 'id_uaks');
     }
 }
