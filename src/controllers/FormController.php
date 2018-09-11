@@ -158,11 +158,11 @@ class FormController extends Controller
     {
         try {
             
-            if ($request->isMethod('get')) {
-                $model = DataMenu::find($id);
+            // if ($request->isMethod('get')) {
+            //     $model = DataMenu::find($id);
 
-                return compact('model');
-            }
+            //     return compact('model');
+            // }
 
             if ($request->isMethod('delete')) {
                 $model = DataMenu::Find(explode('&',Crypt::decryptstring($request->ref))[0]);

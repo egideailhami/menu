@@ -342,7 +342,7 @@ class Menu
                     });
                     $.ajax({
                         url: '".route('routeMenu')."',
-                        type: $(\"button:submit\").data('ref'),
+                        type: $('#btn-submit').data('ref'),
                         data:$('#form').serialize(),
                         success: function(data) {
                             if ((data.error)) {
@@ -561,7 +561,7 @@ class Menu
                     });
                     $.ajax({
                         url: '".route('routeUser')."',
-                        type: $(\"button:submit\").data('ref'),
+                        type: $('#btn-submit').data('ref'),
                         data:$('#form').serialize(),
                         success: function(data) {
                             if ((data.error)) {
@@ -870,8 +870,8 @@ class Menu
                     });
                     $.ajax({
                         url: '".route('routeRP')."',
-                        type: $(\"button:submit\").data('ref'),
-                        data:$('#form').serialize()+'&type='+$(\"button:submit\").data('type'),
+                        type: $('#btn-submit').data('ref'),
+                        data:$('#form').serialize()+'&type='+$('#btn-submit').data('type'),
                         success: function(data) {
                             if ((data.error)) {
                                 swal('Maaf !',data.error,'error');

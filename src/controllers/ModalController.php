@@ -53,7 +53,7 @@ class ModalController extends Controller
                                 </div>
                             </div>
                         </div>';
-                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST" data-type="user"><i class="fa fa-check"></i> Simpan</span></button>';
+                $footer = '<button type="submit" id="btn-submit" class="btn btn-default btn-primary pull-right" data-ref="POST" data-type="user"><i class="fa fa-check"></i> Simpan</span></button>';
                 return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
             break;
             case 'role':
@@ -73,7 +73,7 @@ class ModalController extends Controller
                                 </div>
                             </div>
                         </div>';
-                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST" data-type="role"><i class="fa fa-check"></i> Simpan</span></button>';
+                $footer = '<button type="submit" id="btn-submit" class="btn btn-default btn-primary pull-right" data-ref="POST" data-type="role"><i class="fa fa-check"></i> Simpan</span></button>';
                 return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
             break;
             case 'permission':
@@ -93,7 +93,7 @@ class ModalController extends Controller
                                 </div>
                             </div>
                         </div>';
-                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST" data-type="permission"><i class="fa fa-check"></i> Simpan</span></button>';
+                $footer = '<button type="submit" id="btn-submit" class="btn btn-default btn-primary pull-right" data-ref="POST" data-type="permission"><i class="fa fa-check"></i> Simpan</span></button>';
                 return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
             break;
             case 'menu':
@@ -173,7 +173,7 @@ class ModalController extends Controller
                                 </div>
                             </div>
                         </div>';
-                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="POST"><i class="fa fa-check"></i> Simpan</span></button>';
+                $footer = '<button type="submit" id="btn-submit" class="btn btn-default btn-primary pull-right" data-ref="POST"><i class="fa fa-check"></i> Simpan</span></button>';
                 return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
             break;
            
@@ -204,7 +204,7 @@ class ModalController extends Controller
                                 </div>
                             </div>
                         </div>';
-                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="PUT" data-type="role"><i class="fa fa-check"></i> Simpan</span></button>';
+                $footer = '<button type="submit" id="btn-submit" class="btn btn-default btn-primary pull-right" data-ref="PUT" data-type="role"><i class="fa fa-check"></i> Simpan</span></button>';
                 return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
             break;
             case 'permission':
@@ -226,7 +226,7 @@ class ModalController extends Controller
                                 </div>
                             </div>
                         </div>';
-                $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="PUT" data-type="permission"><i class="fa fa-check"></i> Simpan</span></button>';
+                $footer = '<button type="submit" id="btn-submit" class="btn btn-default btn-primary pull-right" data-ref="PUT" data-type="permission"><i class="fa fa-check"></i> Simpan</span></button>';
                 return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
             break;
             case 'menu':
@@ -309,7 +309,7 @@ class ModalController extends Controller
                                     </div>
                                 </div>
                             </div>';
-                    $footer = '<button type="submit" class="btn btn-default btn-primary pull-right" data-ref="PUT"><i class="fa fa-check"></i> Simpan</span></button>';
+                    $footer = '<button type="submit" id="btn-submit" class="btn btn-default btn-primary pull-right" data-ref="PUT"><i class="fa fa-check"></i> Simpan</span></button>';
                     return response()->json(['form' => $form,'title' => $title, 'size' => $size, 'footer'=>$footer]);
                     break;
             
