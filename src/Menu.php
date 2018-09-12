@@ -30,13 +30,13 @@ class Menu
     public static function header($app)
     {
         $html ='<ul class="nav navbar-nav">';
-        $classMenuActive='';
         $menu_id = [];
         foreach (\Auth::user()->role->aksesDets as $key => $aksesDet) {
             $menu_id[] = $aksesDet->id_mnu;
         };
         // dd($menu_id);
         foreach (DataMenu::where('id_parent',0)->where('header',0)->where('divider',0)->orderBy('urut','asc')->get() as $key => $menu) {
+            $classMenuActive='';
             if (\Auth::user()->role->usr_akses != 'superuser') {
                 if(in_array($menu->id_mnu,$menu_id) == false){
                     break;
