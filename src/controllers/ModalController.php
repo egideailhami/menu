@@ -23,7 +23,7 @@ class ModalController extends Controller
                     $option .='<option value="'.$key.'">'.$value.'</option>';
                 }
                 foreach (DataRole::where('nama_app',env('nama_app'))->where('usr_akses','!=','superuser')->get() as $key => $value) {
-                    $option2 .='<option value="'.$value->id_uaks.'">'.$value->usr_akses.'</option>';
+                    $option2 .='<option value="'.$value->id_uaks.'">'.$value->ket_akses.'</option>';
                 }
                 $title = '<i class="fa fa-plus text-primary"></i><span class="text-primary"> Tambah</span> User ';
                 $form = '<div class="row">
@@ -49,7 +49,7 @@ class ModalController extends Controller
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Nama Lengkap</label>
-                                    <select name="nama_lkp" id="nama_lkp" style="width: 100%;" class="form-control" required="required">'.$option2.'</select>
+                                    <select name="nama_lkp" id="nama_lkp" style="width: 100%;" class="form-control" required="required"></select>
                                 </div>
                             </div>
                         </div>';
