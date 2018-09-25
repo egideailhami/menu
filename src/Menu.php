@@ -57,7 +57,7 @@ class Menu
                 }
                 $classSubMenuActive .= (\Request::is(ltrim($submenu->url,'/'))  ? 'active' : '');
                 $sub .= ($submenu->header == 1 ? "<li class='dropdown-header ".(\Request::is(ltrim($submenu->url,'/')) ? 'active' : '')."'> ".$submenu->menu_ut."</li>":'<li aria-haspopup="true" class="'.(\Request::is(ltrim($submenu->url,'/')) ? "active" : '').'">
-                <a href="'.($submenu->url !=  '#' ? $submenu->url :"javascript:;").'" class="nav-link  "><i class="'.$submenu->icon.'"></i> '.$submenu->menu_ut.' </a>
+                <a href="'.($submenu->url !=  '#' ? $submenu->url :"javascript:;").'" class="nav-link  '.($submenu->url ==  '#' ? strtolower(str_replace(' ','_',$submenu->menu_ut)) :"").'"><i class="'.$submenu->icon.'"></i> '.$submenu->menu_ut.' </a>
             </li>').($submenu->divider == 1 ? "<li class=\"divider\"> </li>":"");
                         
             $tagUl='<ul class="dropdown-menu pull-left">
