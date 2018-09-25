@@ -39,7 +39,7 @@ class Menu
             $classMenuActive='';
             if (\Auth::user()->role->usr_akses != 'superuser') {
                 if(in_array($menu->id_mnu,$menu_id) == false){
-                    break;
+                    continue;
                 }
             }
             $classSubMenuActive='';
@@ -52,7 +52,7 @@ class Menu
             foreach (DataMenu::where('id_parent',$menu->id_mnu)->orderBy('urut','asc')->get() as $key => $submenu) {
                 if (\Auth::user()->role->usr_akses != 'superuser') {
                     if(in_array($submenu->id_mnu,$menu_id) == false){
-                        break;
+                        continue;
                     }
                 }
                 $classSubMenuActive .= (\Request::is(ltrim($submenu->url,'/'))  ? 'active' : '');
