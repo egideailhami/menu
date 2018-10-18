@@ -106,7 +106,7 @@ class ModalController extends Controller
                     }
                 }
                 $option = '';
-                foreach (DataMenu::where('id_parent',0)->get() as $key => $value) {
+                foreach (DataMenu::where('url','#')->get() as $key => $value) {
                     $option .='<option value="'.$value->id_mnu.'">'.$value->menu_ut.'</option>';
                 }
                 $size = 'modal-lg';
@@ -241,7 +241,7 @@ class ModalController extends Controller
                         }
                     }
                     $option = '';
-                    foreach (DataMenu::where('id_parent',0)->get() as $key => $value) {
+                    foreach (DataMenu::where('url','#')->get() as $key => $value) {
                         $option .='<option value="'.$value->id_mnu.'" '.($value->id_mnu == $model->id_parent ? 'selected':'').'>'.$value->menu_ut.'</option>';
                     }
                     $size = 'modal-lg';

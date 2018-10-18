@@ -56,13 +56,25 @@ class Menu
                     }
                 }
                 $classSubMenuActive .= (\Request::is(ltrim($submenu->url,'/'))  ? 'active' : '');
-                $sub .= ($submenu->header == 1 ? "<li class='dropdown-header ".(\Request::is(ltrim($submenu->url,'/')) ? 'active' : '')."'> ".$submenu->menu_ut."</li>":'<li aria-haspopup="true" class="'.(\Request::is(ltrim($submenu->url,'/')) ? "active" : '').'">
+                $sub2='';
+                $tot_sub=0;
+                foreach (DataMenu::where('id_parent',$submenu->id_mnu)->orderBy('urut','asc')->get() as $key => $submenu2) {
+                    $sub2 .= ($submenu2->header == 1 ? "<li class='dropdown-header ".(\Request::is(ltrim($submenu2->url,'/')) ? 'active' : '')."'> ".$submenu2->menu_ut."</li>":'<li aria-haspopup="true" class="'.(\Request::is(ltrim($submenu2->url,'/')) ? 'active' : ' ').'">
+                    <a href="'.($submenu2->url !=  '#' ? $submenu2->url :"javascript:;").'" class="nav-link  '.($submenu2->url ==  '#' ? strtolower(str_replace(' ','_',$submenu2->menu_ut)) :"").'"><i class="'.$submenu2->icon.'"></i> '.$submenu2->menu_ut.' </a>
+                    </li>').($submenu2->divider == 1 ? "<li class=\"divider\"> </li>":"");
+                    $tot_sub++;
+                    
+                }
+                $tagsub = '<ul class="dropdown-menu">'.$sub2.'</ul>';
+                // dd($submenu2);
+                $sub .= ($submenu->header == 1 ? "<li class='dropdown-header ".(\Request::is(ltrim($submenu->url,'/')) ? 'active' : '')."'> ".$submenu->menu_ut."</li>":'<li aria-haspopup="true" class="'.($tot_sub > 0 ? 'dropdown-submenu':' ').(\Request::is(ltrim($submenu->url,'/')) ? 'active' : ' ').'">
                 <a href="'.($submenu->url !=  '#' ? $submenu->url :"javascript:;").'" class="nav-link  '.($submenu->url ==  '#' ? strtolower(str_replace(' ','_',$submenu->menu_ut)) :"").'"><i class="'.$submenu->icon.'"></i> '.$submenu->menu_ut.' </a>
-            </li>').($submenu->divider == 1 ? "<li class=\"divider\"> </li>":"");
+            '.$tagsub.'</li>').($submenu->divider == 1 ? "<li class=\"divider\"> </li>":"");
                         
             $tagUl='<ul class="dropdown-menu pull-left">
             '.$sub.'</ul>';
             }
+            
 
             $html .='<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown '.$classMenuActive.$classSubMenuActive.'" >
             <a href="'.($menu->url != '#' ? $menu->url :"javascript:;").'"><i class="'.$menu->icon.'"></i> '.$menu->menu_ut.'<span class="arrow"></span>
