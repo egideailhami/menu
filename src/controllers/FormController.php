@@ -54,13 +54,22 @@ class FormController extends Controller
         }else{
             if ($cek->deleted_at == NULL) {
                 $cek->delete();
-
             }else {
                 $cek->deleted_at=NULL;
                 $cek->save();   
             }
-            
         }
+        return 'Success';
+    }
+
+    public function postAktif(Request $request)
+    {   
+        $decrypt = explode('&',Crypt::decryptString($request->ref));
+        $id = $decrypt[1];
+        $aktif = $decrypt[0];
+        $user = DataUser::find($id);
+        $user->status = $aktif;
+        $user->save();
         return 'Success';
     }
 
@@ -72,6 +81,10 @@ class FormController extends Controller
     
         $option='<option value="" disabled selected>Nama Lengkap </option>';
         foreach (DB::table($tabel_sumber)->get() as $key => $value) {
+            $cek = DataUser::where('tbl_sumber',$tabel_sumber)->where('key_relasi',$value->$kolom_id)->count();
+            if($cek > 0 ){
+                continue;
+            }
             $option .='<option value="'.Crypt::encryptString($value->$kolom_id).'">'.$value->$kolom_nama.'</option>';
         
         }
@@ -86,11 +99,20 @@ class FormController extends Controller
     
     public function user($id = null, Request $request)
     {
+        if($request->id_usr){
+            $id = explode('&',Crypt::decryptString($request->id_usr))[0];
+        }
+        $key_relasi = Crypt::decryptString($request->nama_lkp);
+        $tabel_sumber = explode(',',env('tabel_sumber'))[$request->tabel_sumber];
+        $kolom_nama = explode(',',env('kolom_nama'))[$request->tabel_sumber];
+        $kolom_id = explode(',',env('kolom_id'))[$request->tabel_sumber];
         $this->validate($request,[
-                    'namauser' => 'unique:usr_web,namauser',
-                ],[
-                    'namauser.unique' => 'Nama User telah terdaftar',
+                'namauser' => 'unique:usr_web,namauser,'.$id.',id_usr',
+            ],[
+                'namauser.unique' => 'Nama User telah terdaftar',
         ]);
+        
+        $cek = DB::table($tabel_sumber)->where($kolom_id,Crypt::decryptString($request->nama_lkp))->first();
 
         try {
             
@@ -111,14 +133,6 @@ class FormController extends Controller
             }
 
             if ($request->isMethod('post')) {
-                $cek = DataUser::where('nama_app',env('nama_app'))->where('namauser',$request->namauser)->first();
-                if ($cek != null) {
-                    return response()->json(["error" => "Nama User sudah terdaftar"]);
-                }
-                $tabel_sumber = explode(',',env('tabel_sumber'))[$request->tabel_sumber];
-                $kolom_nama = explode(',',env('kolom_nama'))[$request->tabel_sumber];
-                $kolom_id = explode(',',env('kolom_id'))[$request->tabel_sumber];
-                $cek = DB::table($tabel_sumber)->where($kolom_id,Crypt::decryptString($request->nama_lkp))->first();
                 $model = new DataUser;
                 $model->namauser = $request->namauser;
                 $model->status = 1;
@@ -134,17 +148,14 @@ class FormController extends Controller
             }
 
             if ($request->isMethod('put')) {
-                $id=explode('&',Crypt::decryptstring($request->ref))[0];
-                $model = DataUser::where('id_mnu',$id)->first();
-                $model->app = env('nama_app');
-                $model->menu_ut = $request->menu_ut;
-                $model->id_parent = $request->id_parent ;
-                $model->divider = $request->divider ? 1 : 0 ;
-                $model->header = $request->header ? 1 : 0 ;
-                $model->icon = 'fa '.$request->icon;
-                $model->routename = $request->routename;
-                $model->url = $request->routename == '#' ? '#':\URL::route($request->routename, array(), false);
-                $model->urut = $request->urut ? $request->urut : 100;
+                $model = DataUser::find($id);
+                $model->namauser = $request->namauser;
+                $model->nama_app = env('nama_app');
+                $model->tbl_sumber = $tabel_sumber;
+                $model->key_relasi = $cek->$kolom_id;
+                $model->nama_lkp = $cek->$kolom_nama;
+                $model->id_uaks = $request->role;
+                $model->email_usr = $cek->email;
                 $model->save();
                 return 'Success';
             }
