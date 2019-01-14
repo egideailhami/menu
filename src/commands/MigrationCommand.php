@@ -13,26 +13,20 @@ class MigrationCommand extends Command
     protected $name = 'grittekno:migration';
 
     /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Creates a migration following the Entrust specifications.';
-
-    /**
      * Execute the console command.
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
+        $this->laravel->view->addNamespace('grittekno', substr(__DIR__, 0, -8).'views');
 
-        if ($this->confirm("Proceed with the migration creation? [Yes|no]", "Yes")) {
+        if ($this->confirm("Proceed with the migration creation? [yes|no]", "yes")) {
 
             $this->line('');
 
             $this->info("Creating migration...");
-            if ($this->createMigration($rolesTable, $roleUserTable, $permissionsTable, $permissionRoleTable)) {
+            if ($this->createMigration()) {
 
                 $this->info("Migration successfully created!");
             } else {
@@ -54,20 +48,13 @@ class MigrationCommand extends Command
      *
      * @return bool
      */
-    protected function createMigration($rolesTable, $roleUserTable, $permissionsTable, $permissionRoleTable)
+    protected function createMigration()
     {
-        $migrationFile = base_path("/database/migrations")."/".date('Y_m_d_His')."_entrust_setup_tables.php";
-
-        $userModel = Config::get('auth.providers.users.model');
-        $userModel = new $userModel;
-        $userKeyName = $userModel->getKeyName();
-        $usersTable  = $userModel->getTable();
-
-        $data = compact('rolesTable', 'roleUserTable', 'permissionsTable', 'permissionRoleTable', 'usersTable', 'userKeyName');
-
-        $output = $this->laravel->view->make('entrust::generators.migration')->with($data)->render();
-
-        if (!file_exists($migrationFile) && $fs = fopen($migrationFile, 'x')) {
+        $cek = 0;
+        $migrationFile = base_path("/database/migrations")."/".date('Y_m_d_His')."_grit-tekno_setup_tables.php";
+        $output = $this->laravel->view->make('grittekno::migration')->render();
+        $cek = count(glob(base_path("/database/migrations")."/*_grit-tekno_setup_tables.php"));
+        if ($cek == 0 && $fs = fopen($migrationFile, 'x')) {
             fwrite($fs, $output);
             fclose($fs);
             return true;
