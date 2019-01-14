@@ -1,6 +1,6 @@
 <?php
 
-namespace Egideailhami\Menu\Models;
+namespace GritTekno\Menu\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,6 +18,6 @@ class AksesHak extends Model
     
     public function aksesDets()
     {
-        return $this->hasMany('Egideailhami\Menu\Models\AksesDet', 'id_akk', 'id_akk');
+        return $this->hasMany('GritTekno\Menu\Models\AksesDet', 'id_akk', 'id_akk');
     }
 }

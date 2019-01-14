@@ -1,14 +1,14 @@
 <?php
 
-namespace Egideailhami\Menu\Controllers;
+namespace GritTekno\Menu\Controllers;
 
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
-use Egideailhami\Menu\Models\Menu as DataMenu;
-use Egideailhami\Menu\Models\AksesUsr as DataRole;
-use Egideailhami\Menu\Models\AksesHak as DataPermission;
-use Egideailhami\Menu\Models\AksesDet;
-use Egideailhami\Menu\Models\UsrWeb as DataUser;
+use GritTekno\Menu\Models\Menu as DataMenu;
+use GritTekno\Menu\Models\AksesUsr as DataRole;
+use GritTekno\Menu\Models\AksesHak as DataPermission;
+use GritTekno\Menu\Models\AksesDet;
+use GritTekno\Menu\Models\UsrWeb as DataUser;
 use Illuminate\Support\Facades\Crypt;
 use Auth;
 

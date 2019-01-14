@@ -1,5 +1,5 @@
 <?php 
-namespace Egideailhami\Menu;
+namespace GritTekno\Menu;
 
 /**
 *  A sample class
@@ -9,7 +9,7 @@ namespace Egideailhami\Menu;
 *
 *  @author yourname
 */
-use Egideailhami\Menu\Models\Menu as DataMenu;
+use GritTekno\Menu\Models\Menu as DataMenu;
 
 class Menu
 {

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Egideailhami\Menu\Controllers;
+namespace GritTekno\Menu\Controllers;
 
 use Illuminate\Http\Request;
-use Egideailhami\Menu\Models\UsrWeb;
+use GritTekno\Menu\Models\UsrWeb;
 
 class LoginController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Egideailhami\Menu\Models;
+namespace GritTekno\Menu\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

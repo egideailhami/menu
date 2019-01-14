@@ -1,5 +1,5 @@
 <?php
-namespace Egideailhami\Menu;
+namespace GritTekno\Menu;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -12,7 +12,7 @@ class MenuServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 
-        $this->loadViewsFrom(__DIR__ . '/views', 'egideailhami.menu');
+        $this->loadViewsFrom(__DIR__ . '/views', 'grittekno.menu');
 
         $this->publishes([
             __DIR__ . '/migrations' => database_path('migrations'),

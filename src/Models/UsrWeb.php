@@ -1,6 +1,6 @@
 <?php
 
-namespace Egideailhami\Menu\Models;
+namespace GritTekno\Menu\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,6 +22,6 @@ class UsrWeb extends Authenticatable
     
     public function role()
     {
-        return $this->belongsTo('Egideailhami\Menu\Models\AksesUsr', 'id_uaks');
+        return $this->belongsTo('GritTekno\Menu\Models\AksesUsr', 'id_uaks');
     }
 }

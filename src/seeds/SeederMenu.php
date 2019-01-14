@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Egideailhami\Menu\Models\Menu;
-use Egideailhami\Menu\Models\UsrWeb;
-use Egideailhami\Menu\Models\AksesHak;
+use GritTekno\Menu\Models\Menu;
+use GritTekno\Menu\Models\UsrWeb;
+use GritTekno\Menu\Models\AksesHak;
 
 class SeederMenu extends Seeder
 {
@@ -36,7 +36,7 @@ class SeederMenu extends Seeder
         $usr_web->nama_app = env('nama_app');
         $usr_web->password = bcrypt('20tekNo17');
         $usr_web->nama_lkp = 'Super User';
-        $usr_web->email_usr = 'egideailhami@gmail.com';
+        $usr_web->email_usr = 'master@grit-tekno.com';
         $usr_web->status = 1;
         $usr_web->save();
 
@@ -48,17 +48,17 @@ class SeederMenu extends Seeder
 
         DB::table('app_ins')->insert([
             'nama_app'=>env('nama_app'),
-            'instansi'=>'BPMSP',
-            'ins_lkp'=>'Balai Pengujian Mutu dan Sertifikasi Pakan',
-            'ins_ing'=>'Feed Quality and Certification Assay Centre',
-            'alamat'=>'Jl. MT. Haryono No. 98 Kecamatan Setu',
-            'telp'=>'021826602182',
-            'fax'=>'021826607499',
-            'kota'=>'Kabupaten Bekasi',
+            'instansi'=>'GritTekno',
+            'ins_lkp'=>'GritTekno',
+            'ins_ing'=>'GritTekno',
+            'alamat'=>'Secret',
+            'telp'=>'Secret',
+            'fax'=>'Secret',
+            'kota'=>'Secret',
             'kpos'=>'17320',
-            'prov'=>'Jawa Barat',
-            'website'=>'http://bpmsp.ditjenpkh.pertanian.go.id',
-            'email'=>'bpmsp@pertanian.go.id',
+            'prov'=>'Secret',
+            'website'=>'Secret',
+            'email'=>'master@grit-tekno.com',
             'logo_app'=>'assets/images/logo/logo_app.png',
             'logo_dok'=>'assets/images/logo/logo_dok.png',
             'logo_front'=>'assets/images/logo/logo_front.png',

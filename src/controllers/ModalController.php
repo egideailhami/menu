@@ -3,9 +3,9 @@
 namespace Egideailhami\Menu\Controllers;
 
 use Illuminate\Http\Request;
-use Egideailhami\Menu\Models\Menu as DataMenu;
-use Egideailhami\Menu\Models\AksesUsr as DataRole;
-use Egideailhami\Menu\Models\AksesHak as DataPermission;
+use GritTekno\Menu\Models\Menu as DataMenu;
+use GritTekno\Menu\Models\AksesUsr as DataRole;
+use GritTekno\Menu\Models\AksesHak as DataPermission;
 
 use Illuminate\Support\Facades\Crypt;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Egideailhami\Menu\Controllers;
+namespace GritTekno\Menu\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
