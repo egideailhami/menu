@@ -18,7 +18,7 @@ class AksesUsr extends Model
     
     public function aksesDets()
     {
-        return $this->hasMany('Egideailhami\Menu\Models\AksesDet', 'id_uaks', 'id_uaks');
+        return $this->hasMany('GritTekno\Menu\Models\AksesDet', 'id_uaks', 'id_uaks');
     }
     
 }

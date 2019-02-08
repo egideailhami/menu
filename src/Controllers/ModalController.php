@@ -1,6 +1,6 @@
 <?php
 
-namespace Egideailhami\Menu\Controllers;
+namespace GritTekno\Menu\Controllers;
 
 use Illuminate\Http\Request;
 use GritTekno\Menu\Models\Menu as DataMenu;

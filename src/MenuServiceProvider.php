@@ -30,7 +30,7 @@ class MenuServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->bind('grittekno', function ($app) {
+        $this->app->bind('grittekno.menu', function ($app) {
             return new Menu($app);
         });
 
