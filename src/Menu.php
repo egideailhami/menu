@@ -1,5 +1,5 @@
 <?php 
-namespace GritTekno\Menu;
+namespace Egideailhami\Menu;
 
 /**
 *  A sample class
@@ -9,7 +9,7 @@ namespace GritTekno\Menu;
 *
 *  @author yourname
 */
-use GritTekno\Menu\Models\Menu as DataMenu;
+use Egideailhami\Menu\Models\Menu as DataMenu;
 
 class Menu
 {
@@ -630,7 +630,7 @@ class Menu
                                 }
                             });
                             $.ajax({
-                                url: '".route('routeMenu')."',
+                                url: '".route('routeUser')."',
                                 type: 'delete',
                                 data: {ref: ref},
                                 success: function(data) {
@@ -639,8 +639,58 @@ class Menu
                                         console.log(\"error\");
                                         hideLoadingMenu();
                                     } else {
-                                        $('#tblMenu').DataTable().ajax.reload(null,false);
+                                        $('#tblUser').DataTable().ajax.reload(null,false);
                                         swalDeleted();
+                                        console.log(\"success\");
+                                        hideLoadingMenu();
+                                    }
+                                },               
+                            });   
+                        }
+                    });
+                });
+
+                $(document).on('click', '.aktif', function() {
+                    ref = $(this).data('ref');
+                    swal({
+                        title: 'Apa Anda yakin akan menonaktifkannya?',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: '<i class=\"fa fa-check\"></i> Ya',
+                        cancelButtonText: '<i class=\"fa fa-times\"></i> Tidak',
+                        showCancelButton: true,
+                        cancelButtonColor: '#d33',
+                        confirmButtonColor: '#3085d6',
+                    }).then((result) => {
+                        if (result.value) {
+                            showLoadingMenu();
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
+                                }
+                            });
+                            $.ajax({
+                                url: '".route('route_usraktif')."',
+                                type: 'POST',
+                                data: {ref: ref},
+                                success: function(data) {
+                                    if ((data.error)) {
+                                        swal('Sorry!',data.error,'error');
+                                        console.log(\"error\");
+                                        hideLoadingMenu();
+                                    } else {
+                                        $('#tblUser').DataTable().ajax.reload(null,false);
+                                        const toast = swal.mixin({
+                                            toast: true,
+                                            position: 'top-end',
+                                            showConfirmButton: false,
+                                            timer: 5000
+                                          });
+                                          
+                                          toast({
+                                            type: 'success',
+                                            title: 'Status user berhasil diperbaharui.'
+                                          })
                                         console.log(\"success\");
                                         hideLoadingMenu();
                                     }

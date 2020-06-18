@@ -1,6 +1,6 @@
 <?php
 
-namespace GritTekno\Menu;
+namespace Egideailhami\Menu;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -11,6 +11,6 @@ class MenuFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'grittekno.menu';
+        return 'egideailhami.menu';
     }
 }
